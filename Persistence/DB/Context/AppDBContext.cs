@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace Persistence.DB.Context
@@ -24,6 +25,8 @@ namespace Persistence.DB.Context
             base.OnModelCreating(modelBuilder);
             //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+            //modelBuilder.Entity<User>().HasQueryFilter(b => !b.IsDeleted);
+            modelBuilder.Entity<User>().HasQueryFilter("SoftDeleteFilter", e => !e.IsDeleted);
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
             modelBuilder.Entity<Count>().ToTable("Count", t => t.ExcludeFromMigrations());
             modelBuilder.Entity<TotalCount>(insu => { insu.HasNoKey(); });
