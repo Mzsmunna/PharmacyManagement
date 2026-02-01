@@ -2,7 +2,7 @@
 
 namespace WebApp.Controllers
 {
-    public class AuthController : Controller
+    public class InventoryController : Controller
     {
         public IActionResult Index()
         {
