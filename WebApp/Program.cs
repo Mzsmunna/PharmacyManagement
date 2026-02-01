@@ -1,3 +1,5 @@
+using Infrastructure;
+
 namespace WebApp
 {
     public class Program
@@ -7,9 +9,12 @@ namespace WebApp
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddPharmacyApp(builder.Configuration);
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            app.UseExceptionHandler();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -23,6 +28,9 @@ namespace WebApp
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            //app.UseStatusCodePages();
+
+            app.UseAuthorization();
             app.UseAuthorization();
 
             app.MapStaticAssets();

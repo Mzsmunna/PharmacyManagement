@@ -22,7 +22,7 @@ namespace Persistence.DB.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
             modelBuilder.Entity<Count>().ToTable("Count", t => t.ExcludeFromMigrations());
