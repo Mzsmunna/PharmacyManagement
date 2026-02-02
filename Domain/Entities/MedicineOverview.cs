@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public class MedicineOverview : Category
+    public class MedicineOverview : MedicineSale
     {
         public required string MedId { get; set; }
         public required string CatId { get; set; }

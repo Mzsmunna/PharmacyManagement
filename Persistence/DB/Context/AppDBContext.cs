@@ -62,7 +62,7 @@ namespace Persistence.DB.Context
         public virtual DbSet<TotalCount> TotalCounts { get; set; }
         //public virtual DbSet<TEntity> Entity { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<MedicineSale> Categories { get; set; }
         public virtual DbSet<Medicine> Medicines { get; set; }
         public virtual DbSet<MedicineOverview> MedicineOverviews { get; set; }
         public virtual DbSet<MedicineSale> MedicineSales { get; set; }
