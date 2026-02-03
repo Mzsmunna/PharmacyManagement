@@ -15,17 +15,21 @@ namespace Persistence.DB.Configs
         {
             base.Configure(builder);
 
+            //builder.HasKey(pt => new { pt.InvoiceId, pt.MedicineId });
+            builder.HasIndex(pt => new { pt.InvoiceId, pt.MedicineId })
+                .IsUnique();
+
             builder.HasOne(x => x.Invoice)
-                .WithMany()
+                .WithMany(f => f.InvoiceItems)
                 .HasForeignKey(f => f.InvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.Medicine)
-                .WithMany()
+                .WithMany(f => f.InvoiceItems)
                 .HasForeignKey(f => f.MedicineId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //.UsingEntity(j => j.ToTable("InvoiceMedicines"));
+            //.UsingEntity(j => j.ToTable("InvoiceItems"));
         }
     }
 }
