@@ -15,7 +15,7 @@ namespace Persistence.DB.Configs
         {
             base.Configure(builder);
 
-            builder.HasIndex(pt => pt.InvoiceNumber).IsUnique();
+            builder.HasIndex(pt => pt.InvoiceNo).IsUnique();
 
             builder.HasOne(x => x.User)
                 .WithMany(f => f.Invoices)

@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public class Invoice : BaseEntity
     {
-        public required string InvoiceNumber { get; set; } = DomainHelper.GenerateInvoiceNumber();
+        public required string InvoiceNo { get; set; } = DomainHelper.GenerateInvoiceNumber();
         public required string CustomerId { get; set; }
         public int Items { get; set; } = 0;
         public int Total { get; set; } = 0;
