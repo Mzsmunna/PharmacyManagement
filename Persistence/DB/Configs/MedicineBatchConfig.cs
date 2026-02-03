@@ -15,7 +15,8 @@ namespace Persistence.DB.Configs
         {
             base.Configure(builder);
 
-            builder.HasIndex(pt => pt.BatchNo).IsUnique();
+            builder.HasIndex(pt => new { pt.BatchNo, pt.MedicineId })
+                    .IsUnique();
 
             builder.HasOne(x => x.Medicine)
                 .WithMany(f => f.Batches)

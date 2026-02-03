@@ -16,6 +16,8 @@ namespace Persistence.DB.Configs
         {
             base.Configure(builder);
 
+            builder.HasIndex(pt => pt.SKU).IsUnique();
+
             builder.HasMany(p => p.Details)
                 .WithMany(t => t.Medicines)
                 .UsingEntity(j => j.ToTable("MedicineDetails")); // custom join table name
