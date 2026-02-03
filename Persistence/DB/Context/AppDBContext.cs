@@ -57,15 +57,16 @@ namespace Persistence.DB.Context
             }
         }
 
-        #region common_dbsets
+        #region table_dbsets
         public virtual DbSet<Count> Counts { get; set; }
         public virtual DbSet<TotalCount> TotalCounts { get; set; }
         //public virtual DbSet<TEntity> Entity { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<MedicineSale> Categories { get; set; }
         public virtual DbSet<Medicine> Medicines { get; set; }
         public virtual DbSet<DetailOverview> MedicineOverviews { get; set; }
-        public virtual DbSet<MedicineSale> MedicineSales { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoiceItem> InvoiceItems { get; set; }       
+        
         #endregion
     }
 }

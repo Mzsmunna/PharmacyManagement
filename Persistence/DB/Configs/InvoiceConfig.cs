@@ -8,22 +8,23 @@ using System.Text;
 
 namespace Persistence.DB.Configs
 {
-    internal class MedicineSaleConfig : BaseEntityEFConfig<MedicineSale>
+    internal class InvoiceConfig : BaseEntityEFConfig<Invoice>
     {
-        public MedicineSaleConfig(string? tableName = "MedicineSale") : base(tableName) { }
-        public override void Configure(EntityTypeBuilder<MedicineSale> builder) 
+        public InvoiceConfig(string? tableName = "Invoice") : base(tableName) { }
+        public override void Configure(EntityTypeBuilder<Invoice> builder) 
         {
             base.Configure(builder);
 
-            builder.HasOne(u => u.User)
-                .WithMany()
+            builder.HasOne(x => x.User)
+                .WithMany(f => f.Invoices)
                 .HasForeignKey(f => f.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(u => u.Medicine)
-                .WithMany()
-                .HasForeignKey(f => f.MedicineId)
+            builder.HasMany(x => x.Items)
+                .WithOne(f => f.Invoice)
+                .HasForeignKey(f => f.InvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             //.UsingEntity(j => j.ToTable("UserMedicines"));
         }
     }

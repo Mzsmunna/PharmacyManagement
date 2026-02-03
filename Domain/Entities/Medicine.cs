@@ -9,11 +9,16 @@ namespace Domain.Entities
         public required string Name { get; set; }
         public string Description { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
+        public string Image { get; set; } = string.Empty;
         public string BatchNo { get; set; } = string.Empty;
         public int Quantity { get; set; } = 0;
         public int UnitPrice { get; set; } = 0;
         public int Discount { get; set; } = 0; // %
         public string Currency { get; set; } = string.Empty;
         public DateTime ExpiryDate { get; set; } = DateTime.UtcNow;
+
+        // relations
+        public ICollection<DetailOverview> Details { get; set; } = [];
+        public ICollection<Invoice> Invoices { get; set; } = [];
     }
 }
