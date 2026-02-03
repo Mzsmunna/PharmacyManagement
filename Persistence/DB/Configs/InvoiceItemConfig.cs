@@ -22,7 +22,7 @@ namespace Persistence.DB.Configs
 
             builder.HasOne(x => x.Medicine)
                 .WithMany()
-                .HasForeignKey(f => f.ItemId)
+                .HasForeignKey(f => f.MedicineId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //.UsingEntity(j => j.ToTable("InvoiceMedicines"));

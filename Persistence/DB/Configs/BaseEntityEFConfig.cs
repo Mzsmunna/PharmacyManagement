@@ -11,7 +11,14 @@ namespace Persistence.DB.Configs
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            builder.ToTable(tableName ?? typeof(T).Name);
+            if (tableName is not null)
+            {
+                tableName = string.IsNullOrEmpty(tableName)
+                    ? typeof(T).Name
+                    : tableName;
+                builder.ToTable(tableName);
+            }
+                
             builder.HasKey(u => u.Id);
             builder.Property(x => x.Id).ValueGeneratedNever();
             //builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();

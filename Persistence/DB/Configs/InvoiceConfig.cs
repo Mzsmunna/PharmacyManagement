@@ -20,7 +20,7 @@ namespace Persistence.DB.Configs
                 .HasForeignKey(f => f.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(x => x.Items)
+            builder.HasMany(x => x.InvoiceItems)
                 .WithOne(f => f.Invoice)
                 .HasForeignKey(f => f.InvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);

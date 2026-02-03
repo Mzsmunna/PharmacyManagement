@@ -19,6 +19,6 @@ namespace Domain.Entities
 
         // relations
         public ICollection<DetailOverview> Details { get; set; } = [];
-        public ICollection<Invoice> Invoices { get; set; } = [];
+        public ICollection<InvoiceItem> InvoiceItems { get; set; } = [];
     }
 }

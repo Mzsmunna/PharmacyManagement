@@ -9,13 +9,13 @@ namespace Domain.Entities
     {
         public required string InvoiceNumber { get; set; } = DomainHelper.GenerateInvoiceNumber();
         public required string CustomerId { get; set; }
-        public int ItemsCount { get; set; } = 0;
+        public int Items { get; set; } = 0;
         public int Total { get; set; } = 0;
         public int Discount { get; set; } = 0; // %
         public string Currency { get; set; } = string.Empty;
 
         // relations
         public User? User { get; set; }
-        public ICollection<InvoiceItem> Items { get; set; } = [];
+        public ICollection<InvoiceItem> InvoiceItems { get; set; } = [];
     }
 }

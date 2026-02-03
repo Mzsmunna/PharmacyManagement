@@ -6,10 +6,13 @@ namespace Domain.Entities
 {
     public class DetailOverview : BaseEntity
     {
+        //public required string MedicineId { get; set; }
         public required string Title { get; set; }
         public string Details { get; set; } = string.Empty;
-        public required string MedId { get; set; }
         public string? Type { get; set; } = string.Empty; // e.g., "paragraph", "list", etc.
         public string? Icon { get; set; } = string.Empty;
+
+        // relations
+        public ICollection<Medicine> Medicines { get; set; } = [];
     }
 }
