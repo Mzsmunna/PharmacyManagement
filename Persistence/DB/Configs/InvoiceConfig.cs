@@ -10,7 +10,7 @@ namespace Persistence.DB.Configs
 {
     internal class InvoiceConfig : BaseEntityEFConfig<Invoice>
     {
-        public InvoiceConfig(string? tableName = "Invoice") : base(tableName) { }
+        public InvoiceConfig(string? tableName = "Invoices") : base(tableName) { }
         public override void Configure(EntityTypeBuilder<Invoice> builder) 
         {
             base.Configure(builder);

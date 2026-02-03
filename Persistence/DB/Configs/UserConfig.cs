@@ -7,7 +7,7 @@ namespace Persistence.DB.Configs
 {
     internal class UserConfig : BaseEntityEFConfig<User>
     {
-        public UserConfig(string? tableName = "User") : base(tableName) { }
+        public UserConfig(string? tableName = "Users") : base(tableName) { }
         //public override void Configure(EntityTypeBuilder<Category> builder) { }
     }
 }

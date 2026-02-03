@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Persistence.DB.Configs;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -24,7 +25,14 @@ namespace Persistence.DB.Context
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);
-            //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+            //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);          
+            modelBuilder.ApplyConfiguration(new UserConfig());
+            modelBuilder.ApplyConfiguration(new MedicineConfig());
+            modelBuilder.ApplyConfiguration(new MedicineBatchConfig());
+            modelBuilder.ApplyConfiguration(new DetailOverviewConfig());
+            modelBuilder.ApplyConfiguration(new InvoiceConfig());
+            modelBuilder.ApplyConfiguration(new InvoiceItemConfig());
+
             //modelBuilder.Entity<User>().HasQueryFilter(b => !b.IsDeleted);
             modelBuilder.Entity<User>().HasQueryFilter("SoftDeleteFilter", e => !e.IsDeleted);
             modelBuilder.Entity<Count>(insu => { insu.HasNoKey(); });
