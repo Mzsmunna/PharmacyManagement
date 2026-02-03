@@ -10,15 +10,14 @@ namespace Domain.Entities
         public string Description { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
-        public string BatchNo { get; set; } = string.Empty;
-        public int Quantity { get; set; } = 0;
-        public int UnitPrice { get; set; } = 0;
-        public int Discount { get; set; } = 0; // %
-        public string Currency { get; set; } = string.Empty;
-        public DateTime ExpiryDate { get; set; } = DateTime.UtcNow;
+        public string SKU { get; set; } = string.Empty;
+        public string Barcode { get; set; } = string.Empty;
+        //public string BrandName { get; set; } = string.Empty;
+        //public string Manufacturer { get; set; } = string.Empty;
 
         // relations
         public ICollection<DetailOverview> Details { get; set; } = [];
+        public ICollection<MedicineBatch> Batches { get; set; } = [];
         public ICollection<InvoiceItem> InvoiceItems { get; set; } = [];
     }
 }

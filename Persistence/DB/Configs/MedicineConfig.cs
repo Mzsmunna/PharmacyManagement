@@ -19,6 +19,11 @@ namespace Persistence.DB.Configs
             builder.HasMany(p => p.Details)
                 .WithMany(t => t.Medicines)
                 .UsingEntity(j => j.ToTable("MedicineDetails")); // custom join table name
+
+            builder.HasMany(p => p.Batches)
+                .WithOne(t => t.Medicine)
+                .HasForeignKey(t => t.MedicineId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
