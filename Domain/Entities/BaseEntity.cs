@@ -6,7 +6,7 @@ namespace Domain.Entities
 {
     public abstract class BaseEntity
     {
-        public required string Id { get; set; } = Guid.CreateVersion7().ToString();
+        public string Id { get; set; } = Guid.CreateVersion7().ToString();
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // DateTimeOffset.UtcNow;

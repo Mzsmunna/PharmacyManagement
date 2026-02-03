@@ -16,4 +16,20 @@ namespace Domain.Enums
         Inhaler,
         Suppository,
     }
+
+    public enum ErrorType
+    {
+        Ok,
+        Null,
+        Bad,
+        Unauthorized,
+        Forbidden,
+        NotFound,
+        Missing,
+        Conflict,
+        Validation,
+        RateLimit,
+        Server,
+        Network
+    }
 }

@@ -7,15 +7,15 @@ namespace WebApi.Controllers
 {
     //[Authorize(Roles = AppRole.User)]
     //[Authorize]
-    [ApiController]
     [Route("api/[controller]")]
-    public class UsersController(IBaseRepository<User> userSqlRepo) : ControllerBase
+    [ApiController]
+    public class UsersController(IBaseRepository<User> userRepository) : ControllerBase
     {
         //[HttpGet, Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var result = await userSqlRepo.GetAllAsync();
+            var result = await userRepository.GetAllAsync();
             return Ok(result);
         }
     }
