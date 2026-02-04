@@ -66,7 +66,7 @@ namespace WebApi.Controllers
             if (payload.Quantity <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Quantity can't be 0"));
             if (payload.UnitPrice <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "UnitPrice can't be 0"));
             
-            result.BatchNo = payload.BatchNo;
+            result.No = payload.No;
             result.MedicineId = payload.MedicineId;
             result.Quantity = payload.Quantity;
             result.UnitPrice = payload.UnitPrice;

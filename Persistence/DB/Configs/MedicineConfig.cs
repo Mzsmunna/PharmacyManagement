@@ -16,7 +16,7 @@ namespace Persistence.DB.Configs
         {
             base.Configure(builder);
 
-            builder.HasIndex(pt => pt.SKU).IsUnique();
+            //builder.HasIndex(pt => pt.SKU).IsUnique();
 
             builder.HasMany(p => p.Details)
                 .WithMany(t => t.Medicines)

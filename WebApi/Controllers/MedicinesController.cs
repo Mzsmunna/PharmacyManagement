@@ -35,7 +35,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetByFilter([FromQuery] FilterPayload payload)
         {
             //MedicineDto? data = null;
-            var result = await repository.FindAsNoTrackAsync(x => x.SKU == payload.SKU || x.Id == payload.Id || x.Name.Contains(payload.Name));
+            var result = await repository.FindAsNoTrackAsync(x => x.Id == payload.Id || x.Name.Contains(payload.Name));
             if (result == null) throw new AppException(AppError.NotFound(typeof(Medicine).Name + ".NotFound", $"No {typeof(Medicine).Name} available for filter: " + payload.ToQueryString()));
             //data = result.ToModel<MedicineDto, Medicine>();
             return Ok(result);
@@ -66,7 +66,6 @@ namespace WebApi.Controllers
             result.Description = payload.Description;
             result.Type = payload.Type;
             result.Image = payload.Image;
-            result.SKU = payload.SKU;
             await repository.SaveChangesAsync();
             return Ok(result);
         }

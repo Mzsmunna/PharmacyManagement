@@ -15,12 +15,12 @@ namespace Persistence.DB.Configs
         {
             base.Configure(builder);
 
-            builder.HasIndex(pt => new { pt.BatchNo, pt.MedicineId })
+            builder.HasIndex(pt => new { pt.No, pt.MedicineId })
                     .IsUnique();
 
             builder.HasOne(x => x.Medicine)
                 .WithMany(f => f.Batches)
-                .HasForeignKey(f => f.BatchNo)
+                .HasForeignKey(f => new { f.No, f.Id })
                 .OnDelete(DeleteBehavior.Restrict);
 
             //.UsingEntity(j => j.ToTable("UserMedicines"));

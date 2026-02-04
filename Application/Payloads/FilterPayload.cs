@@ -19,7 +19,6 @@ namespace Application.Payloads
         string Email = "",
         string Phone = "",
         string Type = "",
-        string SKU = "",
         int PageNo = 1,
         int PageSize = 20
     );

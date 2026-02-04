@@ -6,7 +6,7 @@ namespace Domain.Entities
 {
     public class MedicineBatch : BaseEntity
     {
-        public required string BatchNo { get; set; }
+        public required string No { get; set; }
         public required string MedicineId { get; set; }
         public int Quantity { get; set; } = 0;
         public int UnitPrice { get; set; } = 0;
@@ -16,5 +16,6 @@ namespace Domain.Entities
 
         // relations
         public Medicine? Medicine { get; set; }
+        public ICollection<InvoiceItem> InvoiceItems { get; set; } = [];
     }
 }
