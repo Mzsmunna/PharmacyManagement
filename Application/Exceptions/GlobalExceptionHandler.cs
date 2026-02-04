@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Exceptions
 {
@@ -44,9 +46,12 @@ namespace Application.Exceptions
                 //if (ex is ValidationException validationEx)
                 if (appEx.Error.Details is not null && appEx.Error.Details.Count > 0)
                 {
-                    problem.Extensions = (IDictionary<string, object?>) appEx.Error.Details;
+                    problem.Extensions = appEx.Error.Details.
+                    ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => (object?)kvp.Value
+                    );
                 }
-
                 httpContext.Response.StatusCode = appEx.Error.StatusCode;
             }
             else

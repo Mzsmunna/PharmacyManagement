@@ -13,7 +13,7 @@ namespace Infrastructure.Auth.Validators
         public static AppError ValidateSignUp(SignUpPayload payload)
         {
             var title = "Auth.SignUp";
-            IDictionary<string, string[]> errors = new Dictionary<string, string[]>();
+            Dictionary<string, string[]> errors = new Dictionary<string, string[]>();
             List<string> messages = [];
             if (payload is null) return AppError.Bad(title, "Bad Request");         
             if (string.IsNullOrEmpty(payload.Name)) messages.Add("Name is required");
