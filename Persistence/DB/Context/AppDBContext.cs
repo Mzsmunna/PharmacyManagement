@@ -11,6 +11,10 @@ using System.Text;
 
 namespace Persistence.DB.Context
 {
+    /// <summary>
+    /// dotnet ef migrations add ModTables --project Persistence --startup-project WebApi --output-dir DB/Migrations --context AppDBContext
+    /// dotnet ef database update ModTables --project Persistence --startup-project WebApi --context AppDBContext
+    /// </summary>
     public class AppDBContext : DbContext, IAppDBContext
     {
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options) { }
