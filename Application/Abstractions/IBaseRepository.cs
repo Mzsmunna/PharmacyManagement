@@ -24,6 +24,7 @@ namespace Application.Abstractions
         Task AddAsync(TEntity entity, CancellationToken token = default);
         Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
         Task UpdateAsync(TEntity entity, CancellationToken token = default);
+        Task SaveChangesAsync(TEntity entity, CancellationToken token = default);
         Task SaveChangesAsync(CancellationToken token = default);
     }
 }

@@ -133,6 +133,13 @@ namespace Persistence.DB.Repositories
             await dbContext.SaveChangesAsync(token);
         }
 
+        public virtual async Task SaveChangesAsync(TEntity entity, CancellationToken token = default)
+        {
+            entities.Attach(entity);
+            dbContext.Entry(entities).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync(token);
+        }
+
         public virtual async Task SaveChangesAsync(CancellationToken token = default)
         {
             await dbContext.SaveChangesAsync(token);

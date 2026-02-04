@@ -6,6 +6,7 @@ using Application.Payloads;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApi.Controllers
@@ -41,6 +42,12 @@ namespace WebApi.Controllers
             var result = await userRepository.GetByIdAsync(user.Id);
             if (result == null) throw new AppException(AppError.NotFound("User.NotFound", "No user available for id: " + user.Id));
             result.Name = user.Name;
+            //result.Gender = user.Gender;
+            //result.DOB = user.DOB;
+            result.Email = user.Email;
+            result.Phone = user.Phone;
+            result.Address = user.Address;
+            //result.Img = user.Img;
             await userRepository.SaveChangesAsync();
 
             //var result = await userRepository.GetByIdAsNoTrackAsync(user.Id);

@@ -82,10 +82,10 @@ namespace Infrastructure.Auth.Services
                 ))?.FirstOrDefault();
 
             if (signInUser is null)
-                throw new AppException(AppError.Bad("SignIn.Credential.NotFound", "User credential didn't match"));
+                throw new AppException(AppError.NotFound("SignIn.Credential.NotFound", "User credential didn't match"));
 
             if (!jwtTokenManager.VerifyPasswordHash(payload.Password, signInUser.Password))
-                throw new AppException(AppError.Bad("SignIn.Credential.Wrong", "Wrong credential."));
+                throw new AppException(AppError.Missing("SignIn.Credential.Wrong", "Wrong credential."));
 
             string token = jwtTokenManager.CreateNewToken(signInUser);
             return token;
