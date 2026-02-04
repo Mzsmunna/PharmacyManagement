@@ -21,10 +21,11 @@ namespace Application.Abstractions
         Task<List<TEntity>> ExecuteRawSqlAsync(string sql, List<SqlParameter>? sqlParams);
         Task<List<TModel>> ExecuteAnyRawSqlAsync<TModel>(string sql, List<SqlParameter> sqlParams) where TModel : class, new();
         Task<int> UpdateDbRawSqlAsync(string sql, List<SqlParameter> sqlParams);
-        Task AddAsync(TEntity entity, CancellationToken token = default);
-        Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
-        Task UpdateAsync(TEntity entity, CancellationToken token = default);
-        Task SaveChangesAsync(TEntity entity, CancellationToken token = default);
-        Task SaveChangesAsync(CancellationToken token = default);
+        Task<bool> AddAsync(TEntity entity, CancellationToken token = default);
+        Task<bool> AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
+        Task<bool> UpdateAsync(TEntity entity, CancellationToken token = default);
+        Task<bool> DeleteByIdAsync(string id, CancellationToken token = default);
+        Task<bool> SaveChangesAsync(TEntity entity, CancellationToken token = default);
+        Task<bool> SaveChangesAsync(CancellationToken token = default);
     }
 }

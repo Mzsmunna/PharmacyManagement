@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions;
+using Application.Dtos;
+using Application.Exceptions;
 using Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -110,39 +112,89 @@ namespace Persistence.DB.Repositories
             return resultNoParams;
         }
 
-        public virtual async Task AddAsync(TEntity entity, CancellationToken token = default)
+        public virtual async Task<bool> AddAsync(TEntity entity, CancellationToken token = default)
         {
-            await entities.AddAsync(entity, token);
+            try
+            {
+                await entities.AddAsync(entity, token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public virtual async Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default)
+        public virtual async Task<bool> AddRangeAsync(List<TEntity> entityList, CancellationToken token = default)
         {
             try
             {
                 await entities.AddRangeAsync(entityList, token);
+                return true;
             }
             catch (Exception)
             {
-                throw;
+                return false;
             }
         }
 
-        public virtual async Task UpdateAsync(TEntity entity, CancellationToken token = default)
+        public virtual async Task<bool> UpdateAsync(TEntity entity, CancellationToken token = default)
         {
-            entities.Update(entity);
-            await dbContext.SaveChangesAsync(token);
+            try
+            {
+                entities.Update(entity);
+                await dbContext.SaveChangesAsync(token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public virtual async Task SaveChangesAsync(TEntity entity, CancellationToken token = default)
+        public virtual async Task<bool> DeleteByIdAsync(string id, CancellationToken token = default)
         {
-            entities.Attach(entity);
-            dbContext.Entry(entities).State = EntityState.Modified;
-            await dbContext.SaveChangesAsync(token);
+            try
+            {
+                var result = await GetByIdAsync(id);
+                if (result == null) throw new AppException(AppError.Missing(typeof(TEntity).Name + ".Missing", "Missing user id: " + id));
+                result.IsDeleted = true;
+                result.DeletedAt = DateTime.UtcNow;
+                await dbContext.SaveChangesAsync(token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public virtual async Task SaveChangesAsync(CancellationToken token = default)
+        public virtual async Task<bool> SaveChangesAsync(TEntity entity, CancellationToken token = default)
+        { 
+            try
+            {
+                entities.Attach(entity);
+                dbContext.Entry(entities).State = EntityState.Modified;
+                await dbContext.SaveChangesAsync(token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public virtual async Task<bool> SaveChangesAsync(CancellationToken token = default)
         {
-            await dbContext.SaveChangesAsync(token);
+            try
+            {
+                await dbContext.SaveChangesAsync(token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
