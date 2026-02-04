@@ -23,6 +23,7 @@ namespace Application.Abstractions
         Task<int> UpdateDbRawSqlAsync(string sql, List<SqlParameter> sqlParams);
         Task AddAsync(TEntity entity, CancellationToken token = default);
         Task AddRangeAsync(List<TEntity> entityList, CancellationToken token = default);
+        Task UpdateAsync(TEntity entity, CancellationToken token = default);
         Task SaveChangesAsync(CancellationToken token = default);
     }
 }
