@@ -7,20 +7,17 @@ namespace Application.Payloads
 {
     public record SignUpPayload(
         [Required] string Name,
-        string FirstName,
-        string LastName,
+        //string FirstName,
+        //string LastName,
         string Gender,
         DateTime? DOB,
         //string Role,
-        string Username,
+        //string Username,
         [Required] string Email,
         [Required] string Password,
         [Required] string ConfirmPassword,
         string Phone,
         string Address,
-        string Department,
-        string Designation,
-        string Position,
-        string Img
+        string? Img
     );
 }

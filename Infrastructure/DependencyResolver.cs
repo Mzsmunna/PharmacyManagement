@@ -1,4 +1,7 @@
-﻿using Infrastructure.Exceptions;
+﻿using Application.Abstractions;
+using Infrastructure.Auth.Managers;
+using Infrastructure.Auth.Services;
+using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +15,12 @@ namespace Infrastructure
         {
             services.AddGlobalExceptionHandler();
             if (isWebApp is false)
-                services.AddAppDBContext(config); 
+            {
+                services.AddAppDBContext(config);
+                services.AddScoped<IJwtTokenManager, JwtTokenManager>();
+                services.AddScoped<IAuthService, AuthService>();
+            }
+                
             return services;
         }
 

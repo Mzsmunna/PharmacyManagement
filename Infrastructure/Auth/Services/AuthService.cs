@@ -28,8 +28,10 @@ namespace Infrastructure.Auth.Services
             var user = new User
             {
                 Name = payload.Name,
+                Phone = payload.Phone,
                 Email = payload.Email,
                 Password = payload.Password,
+                Address = payload.Address,
                 Role = "User"
             };
 

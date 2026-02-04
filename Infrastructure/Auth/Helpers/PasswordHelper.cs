@@ -41,6 +41,9 @@ namespace Infrastructure.Auth.Helpers
 
         public static bool VerifyWithHMACSHA512(string password, byte[] passwordHash, byte[] passwordSalt)
         {
+            string[] parts = password.Split('-');
+            passwordHash = Convert.FromHexString(parts[0]);
+            passwordSalt = Convert.FromHexString(parts[1]);
             using (var hmac = new HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));

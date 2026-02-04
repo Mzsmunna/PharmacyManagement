@@ -19,7 +19,8 @@ namespace Infrastructure.Auth.Validators
             if (string.IsNullOrEmpty(payload.Name)) messages.Add("Name is required");
             if (payload.Name.Length < 3) messages.Add("Name lenth is too short");
             if (payload.Name.Length > 100) messages.Add("Name lenth is too big");
-            errors.Add($"{title}.Name", messages.ToArray()); messages = [];
+            if (messages.Count > 0) errors.Add($"{title}.Name", messages.ToArray()); 
+            messages = [];
             return errors.Any() ? AppError.Validation($"{title}.Validation", 
                 "One or more input in invalid", errors) : AppError.Ok;
         }
