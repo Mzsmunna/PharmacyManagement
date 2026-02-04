@@ -39,6 +39,10 @@ namespace WebApi
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                //app.UseSwagger(options =>
+                //{
+                //    options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
+                //});
                 app.UseCors(options =>
                     options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
                 );
