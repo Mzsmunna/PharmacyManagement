@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers
 {
     //[Authorize(Roles = AppRole.User)]
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController(IBaseRepository<User> userRepository) : ControllerBase
@@ -15,7 +15,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var result = await userRepository.GetAllAsync();
+            var result = await userRepository.GetAllAsNoTrackAsync();
             return Ok(result);
         }
     }

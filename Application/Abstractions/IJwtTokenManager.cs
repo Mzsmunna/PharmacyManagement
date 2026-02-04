@@ -18,6 +18,6 @@ namespace Application.Abstractions
         public string GetHeaderToken();
         public string GetValueFromToken(string token, string key);
         public string CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
+        public bool VerifyPasswordHash(string password, string hashedPassword);
     }
 }

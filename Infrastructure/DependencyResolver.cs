@@ -1,11 +1,16 @@
 ﻿using Application.Abstractions;
+using Infrastructure.Auth.Configs;
+using Infrastructure.Auth.Helpers;
 using Infrastructure.Auth.Managers;
 using Infrastructure.Auth.Services;
 using Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Persistence.DB;
+using System.ClientModel.Primitives;
 
 namespace Infrastructure
 {
@@ -17,10 +22,35 @@ namespace Infrastructure
             if (isWebApp is false)
             {
                 services.AddAppDBContext(config);
-                services.AddScoped<IJwtTokenManager, JwtTokenManager>();
-                services.AddScoped<IAuthService, AuthService>();
-            }
-                
+                services.AddAppAuth(config);
+            }   
+            return services;
+        }
+
+        public static IServiceCollection AddAppAuth(this IServiceCollection services, IConfiguration config)
+        {
+            var jwtAuth = config.GetSection(nameof(JWTAuth));
+            var jwtAuthConfig = jwtAuth.Get<JWTAuth>();
+            services.Configure<JWTAuth>(jwtAuth);
+            var signingKey = JwtHelper.GetSymmetricSecurityKey(jwtAuthConfig?.SecretKey ?? "");
+            var tokenParameters = JwtHelper.GetTokenValidationParameters(signingKey, jwtAuthConfig);
+
+            services
+            //.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = tokenParameters;
+            });
+            
+            services.AddScoped<IJwtTokenManager, JwtTokenManager>();
+            services.AddScoped<IAuthService, AuthService>();   
             return services;
         }
 

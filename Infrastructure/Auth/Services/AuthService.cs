@@ -30,7 +30,9 @@ namespace Infrastructure.Auth.Services
                 Name = payload.Name,
                 Phone = payload.Phone,
                 Email = payload.Email,
-                Password = payload.Password,
+                Password = jwtTokenManager.CreatePasswordHash(payload.Password, 
+                    out byte[] passwordHash, 
+                    out byte[] passwordSalt),
                 Address = payload.Address,
                 Role = "User"
             };
@@ -41,12 +43,20 @@ namespace Infrastructure.Auth.Services
                 throw new AppException(AppError.Bad("Auth.SignUp", "Requested body payload seems invalid"));
             }
 
+            var existingUser = await userRepository.FindAsNoTrackAsync(
+                x => x.Email == payload.Email);
+
+            if (existingUser is not null
+                && existingUser.Any())
+            {
+                throw new AppException(AppError.Conflict("Auth.SignUp.Conflict", "User Email already exist"));
+            }
+
             await userRepository.AddAsync(user);
             await userRepository.SaveChangesAsync();
 
             //if (registered is null)
             //    throw new Exception("This email already exists.");
-
             return user.Id;
         }
 
@@ -68,14 +78,13 @@ namespace Infrastructure.Auth.Services
 
             var signInUser = (await userRepository.FindAsNoTrackAsync(
                 x => x.Email == payload.Email 
-                && x.Password == payload.Password))?.FirstOrDefault();
+                //&& x.Password == payload.Password
+                ))?.FirstOrDefault();
+
             if (signInUser is null)
                 throw new AppException(AppError.Bad("SignIn.Credential.NotFound", "User credential didn't match"));
 
-            var passHashWithSalt = jwtTokenManager.CreatePasswordHash(payload.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            signInUser.Password = passHashWithSalt;
-
-            if (!jwtTokenManager.VerifyPasswordHash(signInUser.Password, passwordHash, passwordSalt))
+            if (!jwtTokenManager.VerifyPasswordHash(payload.Password, signInUser.Password))
                 throw new AppException(AppError.Bad("SignIn.Credential.Wrong", "Wrong credential."));
 
             string token = jwtTokenManager.CreateNewToken(signInUser);
