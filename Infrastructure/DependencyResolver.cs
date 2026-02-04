@@ -1,9 +1,9 @@
 ﻿using Application.Abstractions;
+using Application.Exceptions;
 using Infrastructure.Auth.Configs;
 using Infrastructure.Auth.Helpers;
 using Infrastructure.Auth.Managers;
 using Infrastructure.Auth.Services;
-using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;

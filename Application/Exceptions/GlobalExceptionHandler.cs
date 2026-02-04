@@ -1,14 +1,12 @@
-﻿using Application.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Infrastructure.Exceptions
+namespace Application.Exceptions
 {
     public sealed class GlobalExceptionHandler(
         IProblemDetailsService problemDetailsService,
