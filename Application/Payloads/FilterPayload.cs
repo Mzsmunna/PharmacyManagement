@@ -10,6 +10,8 @@ namespace Application.Payloads
         string UserId = "",
         string CustomerId = "",
         string MedicineId = "",
+        string BatchId = "",
+        string DetailId = "",
         string InvoiceId = "",
         string InvoiceNo = "",
         string Name = "",

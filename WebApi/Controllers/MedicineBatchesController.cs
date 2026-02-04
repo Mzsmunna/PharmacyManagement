@@ -45,7 +45,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Add(MedicineBatch payload)
         {
             if (payload == null) throw new AppException(AppError.Bad(typeof(MedicineBatch).Name + ".BadRequest"));
-            if (string.IsNullOrEmpty(payload.MedicineId)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "MedicineId is seems missing"));
+            if (string.IsNullOrEmpty(payload.MedicineId)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "MedicineId is missing"));
             if (payload.Quantity <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Quantity can't be 0"));
             if (payload.UnitPrice <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "UnitPrice can't be 0"));
             
@@ -59,6 +59,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Update(MedicineBatch payload)
         {
             if (payload == null) throw new AppException(AppError.Bad(typeof(MedicineBatch).Name + ".BadRequest"));
+            if (string.IsNullOrEmpty(payload.Id)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "Need Id to update"));
             var result = await repository.GetByIdAsync(payload.Id);
             if (result == null) throw new AppException(AppError.NotFound(typeof(MedicineBatch).Name + ".NotFound", $"No {typeof(MedicineBatch).Name} available for id: " + payload.Id));
             if (string.IsNullOrEmpty(payload.MedicineId)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "MedicineId is seems missing"));
