@@ -2,6 +2,7 @@
 using Application.Dtos;
 using Application.Exceptions;
 using Application.Extensions;
+using Application.Payloads;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             //MedicineDto? data = null;
             var result = await repository.GetByIdAsNoTrackAsync(id);
@@ -30,7 +31,17 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpGet]
+        public async Task<IActionResult> GetByFilter([FromQuery] FilterPayload payload)
+        {
+            //MedicineDto? data = null;
+            var result = await repository.FindAsNoTrackAsync(x => x.SKU == payload.SKU || x.Id == payload.Id || x.Name.Contains(payload.Name));
+            if (result == null) throw new AppException(AppError.NotFound(typeof(Medicine).Name + ".NotFound", $"No {typeof(Medicine).Name} available for filter: " + payload.ToQueryString()));
+            //data = result.ToModel<MedicineDto, Medicine>();
+            return Ok(result);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Add(Medicine payload)
         {
             payload.Id = Guid.CreateVersion7().ToString();
