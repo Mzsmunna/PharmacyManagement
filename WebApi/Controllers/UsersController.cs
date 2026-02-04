@@ -49,13 +49,13 @@ namespace WebApi.Controllers
             return Ok(user);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             var result = await userRepository.GetByIdAsync(id);
             if (result == null) throw new AppException(AppError.Missing("User.Missing", "Missing user id: " + id));
             result.IsDeleted = true;
-            await userRepository.UpdateAsync(result);
+            await userRepository.SaveChangesAsync(); //await userRepository.UpdateAsync(result);
             return Ok(result.IsDeleted);
         }
     }
