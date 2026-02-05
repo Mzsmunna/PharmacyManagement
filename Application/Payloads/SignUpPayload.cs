@@ -17,7 +17,7 @@ namespace Application.Payloads
         [Required] string Password,
         [Required] string ConfirmPassword,
         string Phone,
-        string Address,
+        string? Address,
         string? Img
     );
 }

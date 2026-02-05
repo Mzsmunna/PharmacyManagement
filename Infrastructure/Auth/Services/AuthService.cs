@@ -57,7 +57,8 @@ namespace Infrastructure.Auth.Services
 
             //if (registered is null)
             //    throw new Exception("This email already exists.");
-            return user.Id;
+            var cred = new SignInPayload(user.Email, payload.Password);
+            return await SignIn(cred); //user.Id;
         }
 
         public async Task<string> SignIn(SignInPayload payload)
