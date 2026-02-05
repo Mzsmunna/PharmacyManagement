@@ -44,22 +44,24 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Medicine payload)
         {
-            if (payload == null) throw new AppException(AppError.Bad(typeof(MedicineBatch).Name + ".BadRequest"));
-            if (string.IsNullOrEmpty(payload.Name)) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Name is required"));
-            if (string.IsNullOrEmpty(payload.Type)) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Type is required"));
+            if (payload == null) throw new AppException(AppError.Bad(typeof(Medicine).Name + ".BadRequest"));
+            if (string.IsNullOrEmpty(payload.Name)) throw new AppException(AppError.Validation(typeof(Medicine).Name + ".Validation", "Name is required"));
+            if (string.IsNullOrEmpty(payload.Type)) throw new AppException(AppError.Validation(typeof(Medicine).Name + ".Validation", "Type is required"));
+            var existing = (await repository.FindAsNoTrackAsync(x => x.Name.Equals(payload.Name) && x.Type.Equals(payload.Type)))?.FirstOrDefault();
+            if (existing != null) throw new AppException(AppError.Conflict(typeof(Medicine).Name + ".Conflict", "Medicine already exist"));
             payload.Id = Guid.CreateVersion7().ToString();
             var result = await repository.AddAsync(payload);
             var status = await repository.SaveChangesAsync();
-            return Ok(status);
+            return Ok(payload.Id);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(Medicine payload)
         {
-            if (payload == null) throw new AppException(AppError.Bad(typeof(MedicineBatch).Name + ".BadRequest"));
-            if (string.IsNullOrEmpty(payload.Id)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "Need Id to update"));
-            if (string.IsNullOrEmpty(payload.Name)) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Name is required"));
-            if (string.IsNullOrEmpty(payload.Type)) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Type is required"));
+            if (payload == null) throw new AppException(AppError.Bad(typeof(Medicine).Name + ".BadRequest"));
+            if (string.IsNullOrEmpty(payload.Id)) throw new AppException(AppError.Missing(typeof(Medicine).Name + ".Missing", "Need Id to update"));
+            if (string.IsNullOrEmpty(payload.Name)) throw new AppException(AppError.Validation(typeof(Medicine).Name + ".Validation", "Name is required"));
+            if (string.IsNullOrEmpty(payload.Type)) throw new AppException(AppError.Validation(typeof(Medicine).Name + ".Validation", "Type is required"));
             var result = await repository.GetByIdAsync(payload.Id);
             if (result == null) throw new AppException(AppError.NotFound(typeof(Medicine).Name + ".NotFound", $"No {typeof(Medicine).Name} available for id: " + payload.Id));
             result.Name = payload.Name;

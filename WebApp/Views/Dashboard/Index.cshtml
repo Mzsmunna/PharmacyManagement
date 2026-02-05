@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Dashboard Page";
 }
+@section Scripts {
+    <script src="~/js/med.js" asp-append-version="true"></script>
+}
 
 <head>
     <link rel="stylesheet" href="~/css/pages.css" asp-append-version="true" />
@@ -46,36 +49,37 @@
                     <span class="profile-badge">Medicine Type</span>
                 </div>
             </div>
+            <form class="auth-form active" id="medsForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Medicine Name</label>
+                        <input type="text" id="medName" class="form-input" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Medicine Type</label>
+                        <select id="medType" class="form-select" required>
+                            <option value="Tablet" selected>Tablet</option>
+                            <option value="Capsule">Capsule</option>
+                            <option value="Syrup">Syrup</option>
+                            <option value="Injection">Injection</option>
+                            <option value="Drops">Drops</option>
+                            <option value="Inhaler">Inhaler</option>
+                            <option value="Suppository">Suppository</option>
+                            <option value="Cream">Cream</option>
+                            <option value="Ointment">Ointment</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Medicine Description</label>
+                        <input type="text" id="medDesc" class="form-input" placeholder="Tell us about yourself..." value="" required>
+                    </div>
+                </div>
 
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Medicine Name</label>
-                    <input type="text" class="form-input" value="" required>
+                <div class="btn-group">
+                    <button type="submit" class="btn primary">+ Add Medicine</button>
+                    <button class="btn">Cancel</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Medicine Type</label>
-                    <select class="form-select" required>
-                        <option value="Tablet" selected>Tablet</option>
-                        <option value="Capsule">Capsule</option>
-                        <option value="Syrup">Syrup</option>
-                        <option value="Injection">Injection</option>
-                        <option value="Drops">Drops</option>
-                        <option value="Inhaler">Inhaler</option>
-                        <option value="Suppository">Suppository</option>
-                        <option value="Cream">Cream</option>
-                        <option value="Ointment">Ointment</option>
-                    </select>
-                </div>
-                <div class="form-group full-width">
-                    <label class="form-label">Medicine Description</label>
-                    <input type="text" class="form-input" placeholder="Tell us about yourself..." value="" required>
-                </div>
-            </div>
-
-            <div class="btn-group">
-                <button class="btn primary">+ Add Medicine</button>
-                <button class="btn">Cancel</button>
-            </div>
+            </form>
         </div>
 
         

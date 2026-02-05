@@ -62,7 +62,12 @@ async function apiRequest(method, url, payload, options = {}) {
             //console.warn("Unauthorized – redirect to login");
             isAuthenticated();
         }
-        throw new Error(`HTTP ${res.status}`);
+        else {
+            const error = await res.json();
+            if (error) {
+
+            }
+        }
     }
     return res;
 }

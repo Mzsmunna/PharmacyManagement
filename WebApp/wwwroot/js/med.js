@@ -1,4 +1,5 @@
-﻿const medsForm = document.getElementById("medsForm");
+﻿console.log("Medicine script loaded.");
+const medsForm = document.getElementById("medsForm");
 const apiUrl = "https://localhost:7000/api/Medicines/";
 
 medsForm.addEventListener("submit", async (e) => {
@@ -19,9 +20,9 @@ medsForm.addEventListener("submit", async (e) => {
             Description: medDesc,
             Image: "",
         };
-        const res = await apiRequest("POST", authUrl, payload);
+        const res = await apiRequest("POST", apiUrl, payload);
         if (!res.ok) {
-            alert("Invalid email or password");
+            alert("Something went wrong");
             return;
         }
         const data = await res.json();
