@@ -3,6 +3,7 @@ setJwtToken("");
 
 const loginForm = document.getElementById("loginForm");
 const passwordInput = document.getElementById("loginPassword");
+const authUrl = "https://localhost:7000/api/Auth/";
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -13,30 +14,21 @@ loginForm.addEventListener("submit", async (e) => {
   console.log("Email:", email);
   console.log("Password:", password);
 
-  if (email && password) {
-        const res = await fetch("https://localhost:7000/api/Auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      });
-
-      if (!res.ok) {
-        alert("Invalid email or password");
-        return;
-      }
-
-      const token = await res.text(); //.json();
-      setJwtToken(token);
-      
-      // redirect if needed
-      window.location.href = "/Dashboard/Index";
+  if (email && password) {      
+        var payload = {
+            email: email,
+            password: password
+        };
+        const res = await apiRequest("POST", authUrl + "login", payload);
+        if (!res.ok) {
+            alert("Invalid email or password");
+            return;
+        }
+        const token = await res.text(); //.json();
+        setJwtToken(token);
+        isAuthenticated();  
+        // redirect if needed
+        window.location.href = "/Dashboard/Index";
   }
-
-  //await login(email, password);
 });
 

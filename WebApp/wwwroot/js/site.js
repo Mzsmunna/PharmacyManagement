@@ -31,4 +31,39 @@ function isTokenValid(token) {
 function isAuthenticated() {
     const token = getJwtToken();
     if (!isTokenValid(token)) window.location.href = "/Auth/Index";
+    return true;
 }
+
+async function apiRequest(method, url, payload, options = {}) {
+    if (!url) throw new Error("URL is required");
+    if (!method) method = "GET";
+    
+    const fetchOptions = {
+        method,
+        headers: {}
+    };
+    const token = getJwtToken();
+
+    if (token) {
+        fetchOptions.headers.Authorization = `Bearer ${token}`;
+    }
+
+    if (payload && method !== "GET") {
+        fetchOptions.body = JSON.stringify(payload);
+        fetchOptions.headers["Content-Type"] = "application/json";
+    }
+
+    Object.assign(fetchOptions, options);
+    Object.assign(fetchOptions.headers, options.headers);
+
+    const res = await fetch(url, fetchOptions);
+    if (!res.ok) {
+        if (res.status === 401) {
+            //console.warn("Unauthorized – redirect to login");
+            isAuthenticated();
+        }
+        throw new Error(`HTTP ${res.status}`);
+    }
+    return res;
+}
+
