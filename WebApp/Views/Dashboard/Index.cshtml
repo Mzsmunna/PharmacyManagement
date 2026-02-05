@@ -2,625 +2,332 @@
     ViewData["Title"] = "Dashboard Page";
 }
 
-@section Scripts {
-    <script src="~/js/dash.js" asp-append-version="true"></script>
-}
+<head>
+    <link rel="stylesheet" href="~/css/pages.css" asp-append-version="true" />
+</head>
 
-<!-- Main Content -->
 <main class="main-content">
-    <!-- Header -->
-    <div class="header">
-        <div class="header-left">
-            <h1>Dashboard</h1>
-            <p class="header-subtitle">Welcome back! Here's your portfolio overview.</p>
-        </div>
-        <div class="header-right">
-            <div class="header-search">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <input type="text" placeholder="Search...">
-            </div>
-            <button class="notification-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                    <path d="M13.73 21a2 2 0 01-3.46 0" />
-                </svg>
-                <span class="notification-badge">3</span>
-            </button>
-            <div class="user-menu">
-                <div class="user-avatar">AM</div>
-                <div class="user-info">
-                    <span class="user-name">Alex Morgan</span>
-                    <span class="user-role">Pro Trader</span>
+    <div class="page-header">
+        <h1>Settings</h1>
+        <p>Manage your account preferences and security</p>
+    </div>
+
+    <!-- Settings Tabs -->
+    <div class="settings-tabs">
+        <button class="settings-tab active" data-tab="profile">Profile</button>
+        <button class="settings-tab" data-tab="security">Security</button>
+        <button class="settings-tab" data-tab="notifications">Notifications</button>
+        <button class="settings-tab" data-tab="preferences">Preferences</button>
+        <button class="settings-tab" data-tab="connected">Connected</button>
+    </div>
+
+    <!-- Profile Settings -->
+    <div class="settings-content active" id="profile">
+        <div class="card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    AM
+                    <div class="avatar-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </div>
                 </div>
+                <div class="profile-info">
+                    <h2>Alex Morgan</h2>
+                    <p>alex.morgan@email.com</p>
+                    <span class="profile-badge">Pro Trader</span>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" value="Alex">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" value="Morgan">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" value="alex.morgan@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" value="+1 (555) 123-4567">
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Bio</label>
+                    <input type="text" class="form-input" placeholder="Tell us about yourself..." value="Crypto enthusiast and day trader since 2017">
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn primary">Save Changes</button>
+                <button class="btn">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Left Column -->
-        <div class="content-left">
-            <!-- Charts Grid -->
-            <div class="charts-grid">
-                <!-- Portfolio Overview -->
-                <div class="card chart-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Portfolio Overview</h2>
-                        <div class="chart-tabs">
-                            <button class="chart-tab active">1D</button>
-                            <button class="chart-tab">1W</button>
-                            <button class="chart-tab">1M</button>
-                            <button class="chart-tab">1Y</button>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <svg class="line-chart" viewBox="0 0 700 200" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#b87333" />
-                                    <stop offset="50%" style="stop-color:#c9845a" />
-                                    <stop offset="100%" style="stop-color:#daa57a" />
-                                </linearGradient>
-                                <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#b87333;stop-opacity:0.4" />
-                                    <stop offset="50%" style="stop-color:#b87333;stop-opacity:0.15" />
-                                    <stop offset="100%" style="stop-color:#b87333;stop-opacity:0" />
-                                </linearGradient>
-                            </defs>
-                            <!-- Grid Lines -->
-                            <line x1="0" y1="40" x2="700" y2="40" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="0" y1="80" x2="700" y2="80" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="0" y1="120" x2="700" y2="120" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="0" y1="160" x2="700" y2="160" stroke="var(--chart-grid)" stroke-width="1" />
-
-                            <!-- Area Fill -->
-                            <polygon points="50,140 150,120 250,85 350,95 450,60 550,70 650,35 650,200 50,200" fill="url(#areaGradient)" />
-
-                            <!-- Line -->
-                            <polyline points="50,140 150,120 250,85 350,95 450,60 550,70 650,35" fill="none" stroke="url(#lineGradient)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-
-                            <!-- Dots -->
-                            <circle cx="50" cy="140" r="5" fill="#b87333" />
-                            <circle cx="150" cy="120" r="5" fill="#b87333" />
-                            <circle cx="250" cy="85" r="5" fill="#b87333" />
-                            <circle cx="350" cy="95" r="5" fill="#b87333" />
-                            <circle cx="450" cy="60" r="5" fill="#b87333" />
-                            <circle cx="550" cy="70" r="5" fill="#b87333" />
-                            <circle cx="650" cy="35" r="5" fill="#b87333" />
-                        </svg>
-                        <div class="chart-labels">
-                            <span>Mon</span>
-                            <span>Tue</span>
-                            <span>Wed</span>
-                            <span>Thu</span>
-                            <span>Fri</span>
-                            <span>Sat</span>
-                            <span>Sun</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Asset Performance -->
-                <div class="card chart-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Asset Performance</h2>
-                        <div class="chart-tabs">
-                            <button class="chart-tab active">Week</button>
-                            <button class="chart-tab">Month</button>
-                            <button class="chart-tab">Year</button>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <svg class="bar-chart" viewBox="0 0 700 200" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="barGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#6b8e6b" />
-                                    <stop offset="100%" style="stop-color:#5a7a5a" />
-                                </linearGradient>
-                                <linearGradient id="barGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#b87333" />
-                                    <stop offset="100%" style="stop-color:#9a5f2a" />
-                                </linearGradient>
-                                <linearGradient id="barGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#c27878" />
-                                    <stop offset="100%" style="stop-color:#a85f5f" />
-                                </linearGradient>
-                            </defs>
-                            <!-- Grid Lines -->
-                            <line x1="0" y1="40" x2="700" y2="40" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="0" y1="80" x2="700" y2="80" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="0" y1="120" x2="700" y2="120" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="0" y1="160" x2="700" y2="160" stroke="var(--chart-grid)" stroke-width="1" />
-
-                            <!-- Bars - BTC -->
-                            <rect x="40" y="70" width="60" height="130" rx="4" fill="url(#barGradient1)" />
-                            <text x="70" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">BTC</text>
-                            <text x="70" y="60" text-anchor="middle" fill="var(--gain)" font-size="13" font-weight="600">+8.2%</text>
-
-                            <!-- Bars - ETH -->
-                            <rect x="130" y="90" width="60" height="110" rx="4" fill="url(#barGradient1)" />
-                            <text x="160" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">ETH</text>
-                            <text x="160" y="80" text-anchor="middle" fill="var(--gain)" font-size="13" font-weight="600">+6.5%</text>
-
-                            <!-- Bars - USDT -->
-                            <rect x="220" y="170" width="60" height="30" rx="4" fill="url(#barGradient2)" />
-                            <text x="250" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">USDT</text>
-                            <text x="250" y="160" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-weight="600">+0.1%</text>
-
-                            <!-- Bars - SOL -->
-                            <rect x="310" y="50" width="60" height="150" rx="4" fill="url(#barGradient1)" />
-                            <text x="340" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">SOL</text>
-                            <text x="340" y="40" text-anchor="middle" fill="var(--gain)" font-size="13" font-weight="600">+12.4%</text>
-
-                            <!-- Bars - BNB -->
-                            <rect x="400" y="130" width="60" height="70" rx="4" fill="url(#barGradient2)" />
-                            <text x="430" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">BNB</text>
-                            <text x="430" y="120" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-weight="600">+2.8%</text>
-
-                            <!-- Bars - ADA -->
-                            <rect x="490" y="140" width="60" height="60" rx="4" fill="url(#barGradient2)" />
-                            <text x="520" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">ADA</text>
-                            <text x="520" y="130" text-anchor="middle" fill="var(--text-secondary)" font-size="13" font-weight="600">+1.9%</text>
-
-                            <!-- Bars - XRP -->
-                            <rect x="580" y="150" width="60" height="50" rx="4" fill="url(#barGradient3)" />
-                            <text x="610" y="190" text-anchor="middle" fill="var(--text-secondary)" font-size="12">XRP</text>
-                            <text x="610" y="140" text-anchor="middle" fill="var(--loss)" font-size="13" font-weight="600">-1.2%</text>
-
-                            <!-- Baseline -->
-                            <line x1="0" y1="200" x2="700" y2="200" stroke="var(--border)" stroke-width="2" />
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- BTC/USD Trading -->
-                <div class="card chart-card">
-                    <div class="card-header">
-                        <h2 class="card-title">BTC/USD</h2>
-                        <div class="trading-pair">
-                            <span class="pair-price">$43,256.00</span>
-                            <span class="pair-change positive">+2.34%</span>
-                        </div>
-                    </div>
-                    <div class="candlestick-chart">
-                        <svg viewBox="0 0 400 150" preserveAspectRatio="none">
-                            <line x1="20" y1="30" x2="20" y2="70" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="15" y="40" width="10" height="20" fill="#6b8e6b" />
-                            <line x1="50" y1="25" x2="50" y2="75" stroke="#c27878" stroke-width="1" />
-                            <rect x="45" y="35" width="10" height="30" fill="#c27878" />
-                            <line x1="80" y1="35" x2="80" y2="85" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="75" y="45" width="10" height="25" fill="#6b8e6b" />
-                            <line x1="110" y1="20" x2="110" y2="60" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="105" y="30" width="10" height="20" fill="#6b8e6b" />
-                            <line x1="140" y1="30" x2="140" y2="80" stroke="#c27878" stroke-width="1" />
-                            <rect x="135" y="40" width="10" height="30" fill="#c27878" />
-                            <line x1="170" y1="40" x2="170" y2="90" stroke="#c27878" stroke-width="1" />
-                            <rect x="165" y="50" width="10" height="25" fill="#c27878" />
-                            <line x1="200" y1="35" x2="200" y2="75" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="195" y="45" width="10" height="20" fill="#6b8e6b" />
-                            <line x1="230" y1="25" x2="230" y2="65" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="225" y="35" width="10" height="20" fill="#6b8e6b" />
-                            <line x1="260" y1="30" x2="260" y2="70" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="255" y="40" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="290" y1="20" x2="290" y2="55" stroke="#c27878" stroke-width="1" />
-                            <rect x="285" y="30" width="10" height="15" fill="#c27878" />
-                            <line x1="320" y1="15" x2="320" y2="50" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="315" y="25" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="350" y1="10" x2="350" y2="45" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="345" y="20" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="380" y1="15" x2="380" y2="55" stroke="#c27878" stroke-width="1" />
-                            <rect x="375" y="25" width="10" height="20" fill="#c27878" />
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- ETH/USD Trading -->
-                <div class="card chart-card">
-                    <div class="card-header">
-                        <h2 class="card-title">ETH/USD</h2>
-                        <div class="trading-pair">
-                            <span class="pair-price">$2,284.50</span>
-                            <span class="pair-change positive">+1.87%</span>
-                        </div>
-                    </div>
-                    <div class="candlestick-chart">
-                        <svg viewBox="0 0 400 150" preserveAspectRatio="none">
-                            <line x1="20" y1="40" x2="20" y2="80" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="15" y="50" width="10" height="20" fill="#6b8e6b" />
-                            <line x1="50" y1="35" x2="50" y2="75" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="45" y="45" width="10" height="20" fill="#6b8e6b" />
-                            <line x1="80" y1="30" x2="80" y2="70" stroke="#c27878" stroke-width="1" />
-                            <rect x="75" y="40" width="10" height="20" fill="#c27878" />
-                            <line x1="110" y1="45" x2="110" y2="90" stroke="#c27878" stroke-width="1" />
-                            <rect x="105" y="55" width="10" height="25" fill="#c27878" />
-                            <line x1="140" y1="40" x2="140" y2="75" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="135" y="50" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="170" y1="35" x2="170" y2="70" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="165" y="45" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="200" y1="30" x2="200" y2="65" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="195" y="40" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="230" y1="25" x2="230" y2="60" stroke="#c27878" stroke-width="1" />
-                            <rect x="225" y="35" width="10" height="15" fill="#c27878" />
-                            <line x1="260" y1="35" x2="260" y2="75" stroke="#c27878" stroke-width="1" />
-                            <rect x="255" y="45" width="10" height="20" fill="#c27878" />
-                            <line x1="290" y1="30" x2="290" y2="65" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="285" y="40" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="320" y1="20" x2="320" y2="55" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="315" y="30" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="350" y1="15" x2="350" y2="50" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="345" y="25" width="10" height="15" fill="#6b8e6b" />
-                            <line x1="380" y1="25" x2="380" y2="60" stroke="#6b8e6b" stroke-width="1" />
-                            <rect x="375" y="35" width="10" height="15" fill="#6b8e6b" />
-                        </svg>
-                    </div>
-                </div>
+    <!-- Security Settings -->
+    <div class="settings-content" id="security">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Security Settings</h3>
+                <p class="card-description">Manage your account security and authentication methods</p>
             </div>
 
-            <!-- Bottom Row -->
-            <div class="bottom-row">
-                <!-- Asset Allocation -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Asset Allocation</h2>
-                    </div>
-                    <div class="donut-chart-container">
-                        <svg class="donut-chart" viewBox="0 0 120 120">
-                            <circle cx="60" cy="60" r="45" fill="none" stroke="#f7931a" stroke-width="18" stroke-dasharray="113 170" stroke-dashoffset="-42" stroke-linecap="round" />
-                            <circle cx="60" cy="60" r="45" fill="none" stroke="#627eea" stroke-width="18" stroke-dasharray="71 212" stroke-dashoffset="-155" stroke-linecap="round" />
-                            <circle cx="60" cy="60" r="45" fill="none" stroke="#26a17b" stroke-width="18" stroke-dasharray="57 226" stroke-dashoffset="-226" stroke-linecap="round" />
-                            <circle cx="60" cy="60" r="45" fill="none" stroke="#b87333" stroke-width="18" stroke-dasharray="42 241" stroke-dashoffset="-283" stroke-linecap="round" />
-                        </svg>
-                        <div class="donut-legend">
-                            <div class="legend-item"><span class="legend-dot btc"></span>BTC 40%</div>
-                            <div class="legend-item"><span class="legend-dot eth"></span>ETH 25%</div>
-                            <div class="legend-item"><span class="legend-dot usdt"></span>USDT 20%</div>
-                            <div class="legend-item"><span class="legend-dot other"></span>Other 15%</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Portfolio Health -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Portfolio Health</h2>
-                    </div>
-                    <div class="gauge-container">
-                        <svg class="gauge" viewBox="0 0 120 80">
-                            <defs>
-                                <linearGradient id="gaugeGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#c27878" />
-                                    <stop offset="50%" style="stop-color:#c9a878" />
-                                    <stop offset="100%" style="stop-color:#6b8e6b" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M15,70 A45,45 0 0,1 105,70" fill="none" stroke="var(--border)" stroke-width="10" stroke-linecap="round" />
-                            <path d="M15,70 A45,45 0 0,1 105,70" fill="none" stroke="url(#gaugeGradient1)" stroke-width="10" stroke-linecap="round" stroke-dasharray="120 141" />
-                            <circle cx="89" cy="45" r="6" fill="#6b8e6b" />
-                        </svg>
-                        <div class="gauge-value">85%</div>
-                        <div class="gauge-label">Excellent</div>
-                    </div>
-                </div>
-
-                <!-- Risk Level -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Risk Level</h2>
-                    </div>
-                    <div class="gauge-container">
-                        <svg class="gauge" viewBox="0 0 120 80">
-                            <defs>
-                                <linearGradient id="gaugeGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#6b8e6b" />
-                                    <stop offset="50%" style="stop-color:#c9a878" />
-                                    <stop offset="100%" style="stop-color:#c27878" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M15,70 A45,45 0 0,1 105,70" fill="none" stroke="var(--border)" stroke-width="10" stroke-linecap="round" />
-                            <path d="M15,70 A45,45 0 0,1 105,70" fill="none" stroke="url(#gaugeGradient2)" stroke-width="10" stroke-linecap="round" stroke-dasharray="50 141" />
-                            <circle cx="52" cy="30" r="6" fill="#c9a878" />
-                        </svg>
-                        <div class="gauge-value">35%</div>
-                        <div class="gauge-label">Moderate</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Column - Stats -->
-        <div class="content-right">
-            <div class="stat-card primary">
-                <div class="stat-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="1" x2="12" y2="23" />
-                        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+            <div class="security-item">
+                <div class="security-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b87333" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
                     </svg>
                 </div>
-                <div class="stat-content">
-                    <div class="stat-label">Total Balance</div>
-                    <div class="stat-value">$84,254.32</div>
-                    <div class="stat-change positive">+12.5% this month</div>
+                <div class="security-info">
+                    <div class="security-title">Password</div>
+                    <div class="security-status enabled">Last changed 30 days ago</div>
                 </div>
+                <button class="security-btn">Change Password</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                        <polyline points="17 6 23 6 23 12" />
+
+            <div class="security-item">
+                <div class="security-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b87333" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                        <line x1="12" y1="18" x2="12.01" y2="18" />
                     </svg>
                 </div>
-                <div class="stat-content">
-                    <div class="stat-label">Total Profit</div>
-                    <div class="stat-value">$12,847.00</div>
-                    <div class="stat-change positive">+8.2% vs last week</div>
+                <div class="security-info">
+                    <div class="security-title">Two-Factor Authentication</div>
+                    <div class="security-status enabled">Enabled via Authenticator App</div>
                 </div>
+                <button class="security-btn">Manage</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+            <div class="security-item">
+                <div class="security-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b87333" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <div class="security-info">
+                    <div class="security-title">Biometric Login</div>
+                    <div class="security-status disabled">Not configured</div>
+                </div>
+                <button class="security-btn primary">Enable</button>
+            </div>
+
+            <div class="security-item">
+                <div class="security-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b87333" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                     </svg>
                 </div>
-                <div class="stat-content">
-                    <div class="stat-label">Pending Orders</div>
-                    <div class="stat-value">7</div>
-                    <div class="stat-change">3 buy, 4 sell</div>
+                <div class="security-info">
+                    <div class="security-title">Active Sessions</div>
+                    <div class="security-status enabled">3 devices currently logged in</div>
                 </div>
+                <button class="security-btn">View All</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                        <path d="M2 17l10 5 10-5" />
-                        <path d="M2 12l10 5 10-5" />
-                    </svg>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-label">Active Assets</div>
-                    <div class="stat-value">12</div>
-                    <div class="stat-change">Across 4 wallets</div>
-                </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danger Zone</h3>
+                <p class="card-description">Irreversible actions for your account</p>
+            </div>
+            <div class="btn-group">
+                <button class="btn danger">Delete Account</button>
+                <button class="btn danger">Export All Data</button>
             </div>
         </div>
     </div>
 
-    <!-- Transactions Row -->
-    <div class="transactions-row">
-        <!-- Recent Transactions -->
-        <div class="card transactions-card">
+    <!-- Notification Settings -->
+    <div class="settings-content" id="notifications">
+        <div class="card">
             <div class="card-header">
-                <h2 class="card-title">Recent Transactions</h2>
-                <a href="#" class="view-all">View All</a>
+                <h3 class="card-title">Notification Preferences</h3>
+                <p class="card-description">Choose how you want to receive updates</p>
             </div>
-            <div class="transactions-list">
-                <div class="transaction-item">
-                    <div class="transaction-icon buy">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                        </svg>
-                    </div>
-                    <div class="transaction-details">
-                        <span class="transaction-title">Buy BTC</span>
-                        <span class="transaction-date">Today, 2:45 PM</span>
-                    </div>
-                    <div class="transaction-amount positive">+0.0234 BTC</div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Price Alerts</div>
+                    <div class="toggle-description">Get notified when prices hit your targets</div>
                 </div>
-                <div class="transaction-item">
-                    <div class="transaction-icon sell">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
-                        </svg>
-                    </div>
-                    <div class="transaction-details">
-                        <span class="transaction-title">Sell ETH</span>
-                        <span class="transaction-date">Today, 11:20 AM</span>
-                    </div>
-                    <div class="transaction-amount negative">-0.805 ETH</div>
+                <div class="toggle-switch active"></div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Transaction Updates</div>
+                    <div class="toggle-description">Receive alerts for deposits, withdrawals, and trades</div>
                 </div>
-                <div class="transaction-item">
-                    <div class="transaction-icon transfer">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="17 1 21 5 17 9" />
-                            <path d="M3 11V9a4 4 0 014-4h14" />
-                            <polyline points="7 23 3 19 7 15" />
-                            <path d="M21 13v2a4 4 0 01-4 4H3" />
-                        </svg>
-                    </div>
-                    <div class="transaction-details">
-                        <span class="transaction-title">Transfer USDT</span>
-                        <span class="transaction-date">Yesterday</span>
-                    </div>
-                    <div class="transaction-amount">500 USDT</div>
+                <div class="toggle-switch active"></div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Security Alerts</div>
+                    <div class="toggle-description">Important security notifications and login alerts</div>
                 </div>
-                <div class="transaction-item">
-                    <div class="transaction-icon buy">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                        </svg>
-                    </div>
-                    <div class="transaction-details">
-                        <span class="transaction-title">Buy SOL</span>
-                        <span class="transaction-date">Dec 28, 2025</span>
-                    </div>
-                    <div class="transaction-amount positive">+15.5 SOL</div>
+                <div class="toggle-switch active"></div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Marketing Emails</div>
+                    <div class="toggle-description">News, updates, and promotional offers</div>
                 </div>
+                <div class="toggle-switch"></div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Weekly Report</div>
+                    <div class="toggle-description">Portfolio performance summary every week</div>
+                </div>
+                <div class="toggle-switch active"></div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Push Notifications</div>
+                    <div class="toggle-description">Enable browser push notifications</div>
+                </div>
+                <div class="toggle-switch"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferences Settings -->
+    <div class="settings-content" id="preferences">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Display Preferences</h3>
+                <p class="card-description">Customize how the app looks and behaves</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Currency</label>
+                    <select class="form-select">
+                        <option value="usd" selected>USD - US Dollar</option>
+                        <option value="eur">EUR - Euro</option>
+                        <option value="gbp">GBP - British Pound</option>
+                        <option value="jpy">JPY - Japanese Yen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select class="form-select">
+                        <option value="en" selected>English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Timezone</label>
+                    <select class="form-select">
+                        <option value="est" selected>Eastern Time (ET)</option>
+                        <option value="pst">Pacific Time (PT)</option>
+                        <option value="utc">UTC</option>
+                        <option value="gmt">GMT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date Format</label>
+                    <select class="form-select">
+                        <option value="mdy" selected>MM/DD/YYYY</option>
+                        <option value="dmy">DD/MM/YYYY</option>
+                        <option value="ymd">YYYY-MM-DD</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Dark Mode</div>
+                    <div class="toggle-description">Use dark theme for the interface</div>
+                </div>
+                <div class="toggle-switch active" id="darkModeToggle"></div>
+            </div>
+
+            <div class="toggle-item">
+                <div class="toggle-info">
+                    <div class="toggle-title">Compact View</div>
+                    <div class="toggle-description">Show more data with smaller elements</div>
+                </div>
+                <div class="toggle-switch"></div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn primary">Save Preferences</button>
+                <button class="btn">Reset to Default</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connected Accounts -->
+    <div class="settings-content" id="connected">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Connected Exchanges</h3>
+                <p class="card-description">Link your exchange accounts for seamless trading</p>
+            </div>
+
+            <div class="connected-item">
+                <div class="connected-icon metamask">🦊</div>
+                <div class="connected-info">
+                    <div class="connected-name">MetaMask</div>
+                    <div class="connected-status">Connected • 0x742d...5f83</div>
+                </div>
+                <button class="security-btn">Disconnect</button>
+            </div>
+
+            <div class="connected-item">
+                <div class="connected-icon coinbase">C</div>
+                <div class="connected-info">
+                    <div class="connected-name">Coinbase</div>
+                    <div class="connected-status">Connected • alex.m@email.com</div>
+                </div>
+                <button class="security-btn">Disconnect</button>
+            </div>
+
+            <div class="connected-item">
+                <div class="connected-icon binance">B</div>
+                <div class="connected-info">
+                    <div class="connected-name">Binance</div>
+                    <div class="connected-status disconnected">Not connected</div>
+                </div>
+                <button class="security-btn primary">Connect</button>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn primary">+ Add Exchange</button>
             </div>
         </div>
 
-        <!-- Top Movers -->
-        <div class="card movers-card">
+        <div class="card">
             <div class="card-header">
-                <h2 class="card-title">Top Movers</h2>
-                <div class="movers-tabs">
-                    <button class="movers-tab active">Gainers</button>
-                    <button class="movers-tab">Losers</button>
-                </div>
+                <h3 class="card-title">API Keys</h3>
+                <p class="card-description">Manage your API access for third-party integrations</p>
             </div>
-            <div class="movers-list">
-                <div class="mover-item">
-                    <div class="mover-rank">1</div>
-                    <div class="mover-coin">
-                        <div class="coin-icon sol">◎</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Solana</span>
-                            <span class="coin-symbol">SOL</span>
-                        </div>
-                    </div>
-                    <div class="mover-data">
-                        <span class="mover-price">$98.42</span>
-                        <span class="mover-change positive">+12.4%</span>
-                    </div>
-                </div>
-                <div class="mover-item">
-                    <div class="mover-rank">2</div>
-                    <div class="mover-coin">
-                        <div class="coin-icon doge">Ð</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Dogecoin</span>
-                            <span class="coin-symbol">DOGE</span>
-                        </div>
-                    </div>
-                    <div class="mover-data">
-                        <span class="mover-price">$0.082</span>
-                        <span class="mover-change positive">+8.5%</span>
-                    </div>
-                </div>
-                <div class="mover-item">
-                    <div class="mover-rank">3</div>
-                    <div class="mover-coin">
-                        <div class="coin-icon btc">₿</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Bitcoin</span>
-                            <span class="coin-symbol">BTC</span>
-                        </div>
-                    </div>
-                    <div class="mover-data">
-                        <span class="mover-price">$43,256</span>
-                        <span class="mover-change positive">+8.2%</span>
-                    </div>
-                </div>
-                <div class="mover-item">
-                    <div class="mover-rank">4</div>
-                    <div class="mover-coin">
-                        <div class="coin-icon eth">Ξ</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Ethereum</span>
-                            <span class="coin-symbol">ETH</span>
-                        </div>
-                    </div>
-                    <div class="mover-data">
-                        <span class="mover-price">$2,284</span>
-                        <span class="mover-change positive">+6.5%</span>
-                    </div>
-                </div>
-                <div class="mover-item">
-                    <div class="mover-rank">5</div>
-                    <div class="mover-coin">
-                        <div class="coin-icon ada">₳</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Cardano</span>
-                            <span class="coin-symbol">ADA</span>
-                        </div>
-                    </div>
-                    <div class="mover-data">
-                        <span class="mover-price">$0.52</span>
-                        <span class="mover-change positive">+5.1%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Watchlist -->
-        <div class="card watchlist-card">
-            <div class="card-header">
-                <h2 class="card-title">Watchlist</h2>
-                <button class="add-btn">+ Add</button>
+            <div class="form-group">
+                <label class="form-label">API Key</label>
+                <input type="text" class="form-input" value="cv_live_xxxxxxxxxxxxxxxxxxxxxxxx" readonly>
             </div>
-            <div class="watchlist">
-                <div class="watchlist-item">
-                    <div class="watchlist-coin">
-                        <div class="coin-icon btc">₿</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Bitcoin</span>
-                            <span class="coin-symbol">BTC</span>
-                        </div>
-                    </div>
-                    <div class="watchlist-data">
-                        <span class="coin-price">$43,256</span>
-                        <span class="coin-change positive">+2.34%</span>
-                    </div>
-                    <svg class="sparkline" viewBox="0 0 50 20">
-                        <polyline points="0,15 8,12 16,14 24,8 32,10 40,5 50,7" fill="none" stroke="#6b8e6b" stroke-width="1.5" />
-                    </svg>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-coin">
-                        <div class="coin-icon eth">Ξ</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Ethereum</span>
-                            <span class="coin-symbol">ETH</span>
-                        </div>
-                    </div>
-                    <div class="watchlist-data">
-                        <span class="coin-price">$2,284</span>
-                        <span class="coin-change positive">+1.87%</span>
-                    </div>
-                    <svg class="sparkline" viewBox="0 0 50 20">
-                        <polyline points="0,12 8,10 16,13 24,9 32,11 40,6 50,8" fill="none" stroke="#6b8e6b" stroke-width="1.5" />
-                    </svg>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-coin">
-                        <div class="coin-icon xrp">✕</div>
-                        <div class="coin-info">
-                            <span class="coin-name">XRP</span>
-                            <span class="coin-symbol">XRP</span>
-                        </div>
-                    </div>
-                    <div class="watchlist-data">
-                        <span class="coin-price">$0.62</span>
-                        <span class="coin-change negative">-1.24%</span>
-                    </div>
-                    <svg class="sparkline" viewBox="0 0 50 20">
-                        <polyline points="0,8 8,10 16,7 24,12 32,9 40,14 50,12" fill="none" stroke="#c27878" stroke-width="1.5" />
-                    </svg>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-coin">
-                        <div class="coin-icon doge">Ð</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Dogecoin</span>
-                            <span class="coin-symbol">DOGE</span>
-                        </div>
-                    </div>
-                    <div class="watchlist-data">
-                        <span class="coin-price">$0.082</span>
-                        <span class="coin-change positive">+5.67%</span>
-                    </div>
-                    <svg class="sparkline" viewBox="0 0 50 20">
-                        <polyline points="0,16 8,14 16,12 24,10 32,8 40,5 50,3" fill="none" stroke="#6b8e6b" stroke-width="1.5" />
-                    </svg>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-coin">
-                        <div class="coin-icon dot">●</div>
-                        <div class="coin-info">
-                            <span class="coin-name">Polkadot</span>
-                            <span class="coin-symbol">DOT</span>
-                        </div>
-                    </div>
-                    <div class="watchlist-data">
-                        <span class="coin-price">$7.45</span>
-                        <span class="coin-change positive">+3.21%</span>
-                    </div>
-                    <svg class="sparkline" viewBox="0 0 50 20">
-                        <polyline points="0,14 8,12 16,15 24,10 32,8 40,6 50,9" fill="none" stroke="#6b8e6b" stroke-width="1.5" />
-                    </svg>
-                </div>
+
+            <div class="btn-group">
+                <button class="btn">Regenerate Key</button>
+                <button class="btn">View Documentation</button>
             </div>
         </div>
     </div>
