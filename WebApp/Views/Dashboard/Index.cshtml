@@ -83,44 +83,45 @@
         </div>
 
         
-
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">New Batch</h3>
                 <p class="card-description">Manage your API access for third-party integrations</p>
             </div>
 
-            <div class="form-grid-trio">
-                <div class="form-group">
-                    <label class="form-label">Batch No</label>
-                    <input type="text" class="form-input" value="">
+            <form class="auth-form active" id="medsBatchForm">
+                <div class="form-grid-trio">
+                    <div class="form-group">
+                        <label class="form-label">Batch No</label>
+                        <input type="text" id="medBatchNo" class="form-input" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Unit Price</label>
+                        <input type="number" id="medBatchUp" class="form-input" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Currency</label>
+                        <select class="form-select" id="medBatchCurr">
+                            <option value="$" selected>$</option>
+                            <option value="€">€</option>
+                            <option value="₹">Rupee</option>
+                            <option value="BDT">BDT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" id="medBatchQt" class="form-input" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Discount</label>
+                        <input type="text" id="medBatchDisc" class="form-input" value="0" min="0">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Unit Price</label>
-                    <input type="number" class="form-input" value="1" min="1">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Currency</label>
-                    <select class="form-select">
-                        <option value="$" selected>$</option>
-                        <option value="€">€</option>
-                        <option value="₹">Rupee</option>
-                        <option value="BDT">BDT</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Quantity</label>
-                    <input type="number" class="form-input" value="1" min="1">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Discount</label>
-                    <input type="text" class="form-input" value="0" min="0">
-                </div>
-            </div>
 
-            <div class="btn-group">
-                <button class="btn primary">+ Add Batch</button>
-            </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn primary">+ Add Batch</button>
+                </div>
+            </form>
         </div>
 
         <div class="card">
