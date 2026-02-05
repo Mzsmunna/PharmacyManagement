@@ -1,0 +1,3 @@
+﻿var token = getJwtToken();
+
+isAuthenticated();
