@@ -409,6 +409,7 @@ body {
 .card {
     background-color: var(--bg-card);
     border-radius: 14px;
+    margin: 14px 0;
     padding: 28px;
     border: 1px solid var(--border);
     transition: all 0.3s ease;
@@ -484,11 +485,11 @@ body {
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 14px;
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 14px;
 }
 
 .form-group.full-width {
