@@ -2,13 +2,6 @@
 
 const loginForm = document.getElementById("loginForm");
 const passwordInput = document.getElementById("loginPassword");
-const togglePassword = document.getElementById("togglePassword");
-
-togglePassword.addEventListener("click", () => {
-    const isPassword = passwordInput.type === "password";
-    passwordInput.type = isPassword ? "text" : "password";
-    //togglePassword.textContent = isPassword ? "" : "";
-});
 
 
 loginForm.addEventListener("submit", async (e) => {
@@ -19,6 +12,10 @@ loginForm.addEventListener("submit", async (e) => {
 
   console.log("Email:", email);
   console.log("Password:", password);
+
+  if (!email || !password) {
+
+  }
 
   //await login(email, password);
 });
