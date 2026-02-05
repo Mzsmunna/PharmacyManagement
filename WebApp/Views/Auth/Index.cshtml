@@ -1,34 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Auth Page";
 }
-<h1>@ViewData["Title"]</h1>
 
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Pharmacy</title>
-    <script>
-        // Load theme immediately to prevent flash
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 </head>
-<body class="auth-page">
+<div class="auth-page">
     <!-- Left Side - Branding -->
     <div class="auth-branding">
         <div class="branding-content">
-            <div class="branding-logo">PM</div>
+            <div class="branding-logo">CV</div>
             <h1 class="branding-title">Pharmacy</h1>
-            <p class="branding-subtitle">Your secure pharmacy management</p>
+            <p class="branding-subtitle">Your secure Pharmacy management</p>
 
             <div class="branding-features">
                 <div class="branding-feature">
@@ -37,7 +20,7 @@
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
                     </div>
-                    Security with protection
+                    Bank-grade security with 2FA protection
                 </div>
                 <div class="branding-feature">
                     <div class="feature-icon">
@@ -45,7 +28,7 @@
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                         </svg>
                     </div>
-                    Real-time pharmacy data and billings
+                    Real-time market data and analytics
                 </div>
                 <div class="branding-feature">
                     <div class="feature-icon">
@@ -54,7 +37,7 @@
                             <line x1="1" y1="10" x2="23" y2="10" />
                         </svg>
                     </div>
-                    Multi-shop support with stock rewards
+                    Multi-wallet support with staking rewards
                 </div>
             </div>
         </div>
@@ -259,7 +242,7 @@
                     </svg>
                 </div>
                 <h2>Account Created!</h2>
-                <p>Check your email to verify your account and get started with Pharmacy.</p>
+                <p>Check your email to verify your account and get started with CryptoVault.</p>
                 <button class="submit-btn" onclick="window.location.href='index.html'">Go to Dashboard</button>
             </div>
         </div>
@@ -268,7 +251,4 @@
             Copyright &copy; 2026 Pharmacy. Designed by <a href="" target="_blank" rel="nofollow">Pharmacy App</a>
         </p>
     </div>
-
-    <script src="~/js/script.js" asp-append-version="true"></script>
-</body>
-</html>
+</div>
