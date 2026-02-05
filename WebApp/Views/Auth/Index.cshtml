@@ -72,7 +72,7 @@
             </div>
 
             <!-- Login Form -->
-            <form class="auth-form active" id="loginForm">
+            <form class="auth-form active" id="loginForm" asp-controller="Auth" asp-action="Login" method="post">
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
                     <div class="form-input-wrapper">
@@ -80,19 +80,19 @@
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                             <polyline points="22,6 12,13 2,6" />
                         </svg>
-                        <input type="email" class="form-input" placeholder="Enter your email" required>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Password</label>
                     <div class="form-input-wrapper">
-                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="input-icon" id="togglePassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                             <path d="M7 11V7a5 5 0 0110 0v4" />
                         </svg>
                         <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
-                        <button type="button" class="password-toggle" data-target="loginPassword">
+                        <button type="submit" class="password-toggle" data-target="loginPassword">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                                 <circle cx="12" cy="12" r="3" />
@@ -240,11 +240,11 @@
 
                 <button type="submit" class="submit-btn">Create Account</button>
 
-                <div class="divider">
+                @* <div class="divider">
                     <div class="divider-line"></div>
                     <span class="divider-text">or continue with</span>
                     <div class="divider-line"></div>
-                </div>
+                </div> *@
 
                 @* <div class="social-buttons">
                     <button type="button" class="social-btn">
@@ -285,3 +285,6 @@
     </div>
 </div>
 <script src="~/js/auth.js" asp-append-version="true"></script>
+@section Scripts {
+    <script></script>
+}

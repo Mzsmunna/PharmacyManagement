@@ -345,13 +345,6 @@
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
 
-        if (loginForm) {
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                window.location.href = 'index.html';
-            });
-        }
-
         if (registerForm) {
             registerForm.addEventListener('submit', function(e) {
                 e.preventDefault();
