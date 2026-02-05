@@ -488,6 +488,12 @@ body {
     gap: 14px;
 }
 
+.form-grid-trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
 .form-group {
     margin-bottom: 14px;
 }
