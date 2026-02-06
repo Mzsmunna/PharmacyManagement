@@ -30,6 +30,7 @@ getMedicines();
 
 function LoadInvMedBilling()
 {
+    //if (!selectedBatch) 
     selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
     document.getElementById("invoiceQt").max = selectedBatch.Quantity;
     console.log(selectedBatch);
@@ -197,8 +198,8 @@ function LoadInvoiceList() {
                     <td class="change-cell negative">${formatDateGmt(medBatch.ExpiryDate)}</td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn primary med-batches" data-id="${medBatch.Id}">Edit / View</button>
-                            <button class="btn danger med-batches-del" data-id="${medBatch.Id}">Delete</button>
+                            <button class="btn primary inv-med-batches" data-id="${medBatch.BatchId}">Edit / View</button>
+                            <button class="btn danger inv-med-batches-del" data-id="${medBatch.BatchId}">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -206,24 +207,30 @@ function LoadInvoiceList() {
             tbody.insertAdjacentHTML("beforeend", row);        
         });
 
-        document.querySelectorAll(".med-batches").forEach(btn => {
+        document.querySelectorAll(".inv-med-batches").forEach(btn => {
             btn.addEventListener("click", async (e) => {
                 const id = e.currentTarget.dataset.id;
-                await LoadMedicineBatch(id);
+                let match = invoiceItems.find(b => b.BatchId = id);
+                if (match) 
+                {
+                    selectedBatchId = match.BatchId;
+                    selectedBatch = match;
+                }
+                invoiceItems = invoiceItems.filter(b => b.BatchId != id);
+                LoadInvoiceList();
+                LoadInvMedBilling();
             });
         });
 
-        document.querySelectorAll(".med-batches-del").forEach(btn => {
+        document.querySelectorAll(".inv-med-batches-del").forEach(btn => {
             btn.addEventListener("click", async (e) => {
                 const id = e.currentTarget.dataset.id;
                 if (!id) return;
-                const res = await apiRequest("DELETE", batchApiUrl + id, {});
-                if (!res.ok) {
-                    alert("Something went wrong");
-                    return;
-                }
-                const status = await res.text();
-                if (status) await getMedicine(medId);
+                let match = invoiceItems.find(b => b.BatchId = id);
+                const item = meds
+                  .flatMap(x => x.Batches)
+                  .find(x => x.BatchId === id);
+                item.Quantity += match.Quantity;
             });
         });
     }
@@ -251,7 +258,7 @@ invoiceForm.addEventListener("submit", async (e) => {
       MedicineName: selectedMed.Name,
       MedicineType: selectedMed.Type,
       MedicineDesc: selectedMed.Description,
-      BactchId: selectedBatch.Id,
+      BatchId: selectedBatch.Id,
       BatchNo: selectedBatch.No,
       Quantity: Number(invoiceQt),
       UnitPrice: Number(invoiceUp),
@@ -268,11 +275,11 @@ invoiceForm.addEventListener("submit", async (e) => {
   
     console.log("InvoicePayload:", invMed);
     if (invMed) {
-        let match = invoiceItems.find(b => b.BactchId = invMed.BactchId);
+        let match = invoiceItems.find(b => b.BatchId = selectedBatchId.BatchId);
         if (match)
         {
             invMed.Quantity += match.Quantity;
-            invoiceItems = invoiceItems.filter(b => b.BactchId != invMed.BactchId);
+            invoiceItems = invoiceItems.filter(b => b.BatchId != selectedBatchId.BatchId);
         }
         invoiceItems.push(invMed);
     }
