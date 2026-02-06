@@ -48,7 +48,8 @@ namespace WebApi.Controllers
             if (string.IsNullOrEmpty(payload.MedicineId)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "MedicineId is missing"));
             if (payload.Quantity <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Quantity can't be 0"));
             if (payload.UnitPrice <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "UnitPrice can't be 0"));
-            
+            if (payload.ExpiryDate == default || payload.ExpiryDate.ToUniversalTime() < DateTime.UtcNow) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Expiry Date seems expired"));
+
             payload.Id = Guid.CreateVersion7().ToString();
             var result = await repository.AddAsync(payload);
             var status = await repository.SaveChangesAsync();
@@ -65,6 +66,7 @@ namespace WebApi.Controllers
             if (string.IsNullOrEmpty(payload.MedicineId)) throw new AppException(AppError.Missing(typeof(MedicineBatch).Name + ".Missing", "MedicineId is seems missing"));
             if (payload.Quantity <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Quantity can't be 0"));
             if (payload.UnitPrice <= 0) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "UnitPrice can't be 0"));
+            if (payload.ExpiryDate == default || payload.ExpiryDate.ToUniversalTime() < DateTime.UtcNow) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Validation", "Expiry Date seems expired"));
             
             result.No = payload.No;
             result.MedicineId = payload.MedicineId;
