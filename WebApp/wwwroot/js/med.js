@@ -1,5 +1,7 @@
 ﻿console.log("Medicine script loaded.");
 const medsForm = document.getElementById("medsForm");
+const medCancel = document.getElementById("medCancel");
+medCancel.style.display = "none";
 const apiUrl = "https://localhost:7000/api/Medicines/";
 const batchApiUrl = "https://localhost:7000/api/MedicineBatches/";
 
@@ -25,6 +27,7 @@ async function getMedicine(id) {
             document.getElementById("medCardTitle").textContent = "Edit Medicine";
             document.getElementById("medAddEdit").textContent = "Save Changes";
             medsBatchForm.style.display = "block";
+            medCancel.style.display = "block";
 
             LoadBatchTable();
         }
