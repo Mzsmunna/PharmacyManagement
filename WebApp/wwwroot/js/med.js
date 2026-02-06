@@ -94,8 +94,8 @@ medsBatchForm.addEventListener("submit", async (e) => {
             alert("Something went wrong");
             return;
         }
-        medId = await res.text();
-        if (medId)
+        medBatchId = await res.text();
+        if (medBatchId)
         {
             med = await apiRequest("GET", apiUrl + medId);
             console.log("medicine:", med);
