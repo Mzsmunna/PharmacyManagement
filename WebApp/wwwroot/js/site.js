@@ -63,6 +63,15 @@ function isValidGuidV7(value) {
   return v7Regex.test(value);
 }
 
+function formatDateGmt(date = new Date()) {
+  date = new Date(date);
+  const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+  const yy = String(date.getUTCFullYear()).slice(-2);
+
+  return `${mm}-${dd}-${yy}`;
+}
+
 async function apiRequest(method, url, payload, options = {}) {
     if (!url) throw new Error("URL is required");
     if (!method) method = "GET";

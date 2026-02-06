@@ -85,7 +85,7 @@
         
         <div class="card" id="medsBatchForm">
             <div class="card-header">
-                <h3 class="card-title">New Batch</h3>
+                <h3 class="card-title" id="medBatchCardTitle">New Batch</h3>
                 <p class="card-description">Manage your API access for third-party integrations</p>
             </div>
 
@@ -124,7 +124,8 @@
                 </div>
 
                 <div class="btn-group">
-                    <button type="submit" class="btn primary">+ Add Batch</button>
+                    <button type="submit" id="medBatchAddEdit" class="btn primary">+ Add Batch</button>
+                    <button class="btn">Cancel</button>
                 </div>
             </form>
         </div>
@@ -146,7 +147,7 @@
                             <th class="text-right">Unit Price</th>
                             <th class="text-right">Discount %</th>
                             <th class="text-right">Expiry Date</th>
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -165,6 +166,12 @@
                             <td class="price-cell">Medicine Price $0.00</td>
                             <td class="volume-cell">Medicine Discount 0%</td>
                             <td class="change-cell negative">Medicine Expiry Date</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn primary med-batches" data-id="019c31bb-956c-7c9c-8a1f-051fcaaaea93">Edit / View</button>
+                                    <button class="btn danger">Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

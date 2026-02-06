@@ -3,7 +3,6 @@ const medsForm = document.getElementById("medsForm");
 const apiUrl = "https://localhost:7000/api/Medicines/Includes/";
 const batchApiUrl = "https://localhost:7000/api/MedicineBatches/";
 
-
 async function getMedicine(id) {
     document.getElementById("medCardTitle").textContent = "New Medicine";
     document.getElementById("medAddEdit").textContent = "+ Add Medicine";
@@ -24,16 +23,61 @@ async function getMedicine(id) {
     }
 }
 
+async function LoadMedicine(id) {
+  if (id && isValidGuidV7(id)) {
+      console.log("Valid Medicine GUID v7:", id);
+      await getMedicine(id);
+    }
+    else {
+        medId = "";
+        med = null;
+    }
+}
+
+async function LoadMedicineBatch(id) {
+    document.getElementById("medBatchCardTitle").textContent = "New Batch";
+    document.getElementById("medBatchAddEdit").textContent = "+ Add Medicine";
+    if (id && isValidGuidV7(id)) {
+      console.log("Valid Medicine Batch GUID v7:", id);
+      if (med && med.Batches && med.Batches.length)
+      {
+         medBatch = med.Batches.find(b => b.Id === id);
+         if (medBatch) {
+            document.getElementById("medBatchCardTitle").textContent = "Edit Batch";
+            document.getElementById("medBatchAddEdit").textContent = "Save Changes";
+            document.getElementById("medBatchNo").value = medBatch.No;
+            document.getElementById("medBatchUp").value = medBatch.UnitPrice;
+            document.getElementById("medBatchQt").value = medBatch.Quantity;
+            document.getElementById("medBatchCurr").value = medBatch.Currency;
+            document.getElementById("medBatchDisc").value = medBatch.Discount;
+            document.getElementById("medBatchExp").value = formatDateGmt(medBatch.ExpiryDate);
+         }
+      }
+    }
+}
+
+let medBatch = null;
 let med = null;
 let medId = new URLSearchParams(location.search).get("medId");
-if (medId && isValidGuidV7(medId)) {
-  console.log("Valid Medicine GUID v7:", medId);
-  getMedicine(medId);
-}
-else {
-    medId = "";
-    med = null;
-} 
+if (medId) LoadMedicine(medId);
+
+//document.getElementById("medEV").addEventListener("click", async (e) => {
+//    const id = e.currentTarget.dataset.id;
+//    await LoadMedicine(id);
+//});
+
+//document.getElementById("medBatchEV").addEventListener("click", async (e) => {
+//    const id = e.currentTarget.dataset.id;
+//    await LoadMedicineBatch(id);
+//});
+
+document.querySelectorAll(".med-batches").forEach(btn => {
+  btn.addEventListener("click", async (e) => {
+    const id = e.currentTarget.dataset.id;
+    await LoadMedicineBatch(id);
+  });
+});
+
 
 const medsBatchForm = document.getElementById("medsBatchForm");
 medsBatchForm.style.display = "none";
