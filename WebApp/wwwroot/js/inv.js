@@ -46,6 +46,7 @@ function LoadInvMedBatchesDD() {
         option.selected = true;
         selectedBatchId = item.Id;
         selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
+        document.getElementById("invoiceQt").max = selectedBatch.Quantity;
       }
       
       invoiceForm.style.display = "block";
@@ -55,6 +56,7 @@ function LoadInvMedBatchesDD() {
     select.addEventListener("change", (e) => {
         selectedBatchId = e.target.value;
         selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
+        document.getElementById("invoiceQt").max = selectedBatch.Quantity;
         console.log(selectedBatch);
         if (selectedBatch && selectedBatch.length) invoiceForm.style.display = "block";
         else return;
@@ -158,6 +160,65 @@ function LoadInventoryTable() {
     LoadInvoiceMedsDD();
 }
 
+function LoadInvoiceList() {
+    const tbody = document.getElementById("invoices-tbody");
+    tbody.innerHTML = "";
+    if (invoiceItems && invoiceItems.length)
+    {
+        let totalQt = 0;
+        invoiceItems.forEach(medBatch => {
+            //if (!medBatch) return;
+            if (medBatch.Quantity) totalQt += medBatch.Quantity;
+            const row = `
+                <tr>
+                    <td><span class="price-cell">${medBatch.BatchNo}</span></td>
+                    <td>
+                        <div class="coin-cell">
+                            <div class="coin-icon btc">M</div>
+                            <div>
+                                <div class="coin-name">${medBatch.MedicineName} | ${medBatch.MedicineType}</div>
+                                <div class="coin-symbol">${medBatch.MedicineDesc}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="change-cell positive">${medBatch.Quantity}</td>
+                    <td class="price-cell">${medBatch.UnitPrice}${medBatch.Currency}</td>
+                    <td class="volume-cell">${medBatch.Discount}%</td>
+                    <td class="change-cell negative">${formatDateGmt(medBatch.ExpiryDate)}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn primary med-batches" data-id="${medBatch.Id}">Edit / View</button>
+                            <button class="btn danger med-batches-del" data-id="${medBatch.Id}">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+              `;
+            tbody.insertAdjacentHTML("beforeend", row);        
+        });
+
+        document.querySelectorAll(".med-batches").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.currentTarget.dataset.id;
+                await LoadMedicineBatch(id);
+            });
+        });
+
+        document.querySelectorAll(".med-batches-del").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.currentTarget.dataset.id;
+                if (!id) return;
+                const res = await apiRequest("DELETE", batchApiUrl + id, {});
+                if (!res.ok) {
+                    alert("Something went wrong");
+                    return;
+                }
+                const status = await res.text();
+                if (status) await getMedicine(medId);
+            });
+        });
+    }
+}
+
 invoiceForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -175,23 +236,37 @@ invoiceForm.addEventListener("submit", async (e) => {
     }
     else invoiceExpIV.style.display = "none";
     const httpMethod = "POST";
-    var invoicePayload = {
-      medicineId: selectedMedId,
-      bactchId: selectedBatch.Id,
-      batchNo: selectedBatch.No,
-      quantity: invoiceQt,
-      unitPrice: invoiceUp,
-      discount: invoiceDisc
+    var invMed = {
+      MedicineId: selectedMedId,
+      MedicineName: selectedMed.Name,
+      MedicineType: selectedMed.Type,
+      MedicineDesc: selectedMed.Description,
+      BactchId: selectedBatch.Id,
+      BatchNo: selectedBatch.No,
+      Quantity: Number(invoiceQt),
+      UnitPrice: Number(invoiceUp),
+      Currency: invoiceCurr,
+      Discount: Number(invoiceDisc),
+      ExpiryDate: invoiceExp,
     };
-  
-    console.log("InvoicePayload:", invoicePayload);
 
-    if (medId && medBatchNo && medBatchUp && medBatchQt && medBatchExp) {      
-        const res = await apiRequest(httpMethod, batchApiUrl, payload);
-        if (!res.ok) {
-            alert("Something went wrong");
-            return;
+    if (invMed.Quantity <= 0) return;
+
+    selectedBatch.Quantity -= invMed.Quantity;
+    document.getElementById("invoiceQt").max = selectedBatch.Quantity;
+    document.getElementById("invoiceQt").value = selectedBatch.Quantity;
+  
+    console.log("InvoicePayload:", invMed);
+    if (invMed) {
+        let match = invoiceItems.find(b => b.BactchId = invMed.BactchId);
+        if (match)
+        {
+            invMed.Quantity += match.Quantity;
+            invoiceItems = invoiceItems.filter(b => b.BactchId != invMed.BactchId);
         }
+        invoiceItems.push(invMed);
     }
+    console.log("InvoiceItems:", invoiceItems);
+    LoadInvoiceList();
 });
 
