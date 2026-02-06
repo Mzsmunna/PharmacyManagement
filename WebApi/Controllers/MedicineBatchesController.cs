@@ -52,7 +52,7 @@ namespace WebApi.Controllers
             payload.Id = Guid.CreateVersion7().ToString();
             var result = await repository.AddAsync(payload);
             var status = await repository.SaveChangesAsync();
-            return Ok(status);
+            return Ok(payload.Id);
         }
 
         [HttpPut]

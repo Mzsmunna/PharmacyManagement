@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             
             var result = await repository.AddAsync(payload);
             var status = await repository.SaveChangesAsync();
-            return Ok(status);
+            return Ok(payload.Id);
         }
 
         //[HttpPut("{medicineId}/{detailsId}")]

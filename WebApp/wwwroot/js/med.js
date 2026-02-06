@@ -1,6 +1,7 @@
 ﻿console.log("Medicine script loaded.");
 const medsForm = document.getElementById("medsForm");
 const apiUrl = "https://localhost:7000/api/Medicines/";
+const batchApiUrl = "https://localhost:7000/api/MedicineBatches/";
 
 let medId = "";
 let med = null;
@@ -25,6 +26,8 @@ async function getMedicine(id) {
 
 const medsBatchForm = document.getElementById("medsBatchForm");
 medsBatchForm.style.display = "none";
+const medBatchExpIV = document.getElementById("medBatchExpIV");
+medBatchExpIV.style.display = "none";
 
 medsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -64,6 +67,9 @@ medsBatchForm.addEventListener("submit", async (e) => {
     const medBatchDisc = document.getElementById("medBatchDisc").value;
     let medBatchExp = document.getElementById("medBatchExp").value;
     if (medBatchExp) medBatchExp = new Date(medBatchExp);
+    if (isNaN(medBatchExp.getTime()) 
+    || medBatchExp < new Date()) medBatchExpIV.style.display = "inline";
+    else medBatchExpIV.style.display = "none";
   
     console.log("medBatchNo:", medBatchNo);
     console.log("medBatchUp:", medBatchUp);
@@ -79,11 +85,11 @@ medsBatchForm.addEventListener("submit", async (e) => {
             MedicineId: medId,
             Quantity: medBatchQt,
             UnitPrice: medBatchUp,
-            Discount: medDesc,
+            Discount: medBatchDisc,
             Currency: medBatchCurr,
             ExpiryDate: medBatchExp,
         };
-        const res = await apiRequest("POST", apiUrl, payload);
+        const res = await apiRequest("POST", batchApiUrl, payload);
         if (!res.ok) {
             alert("Something went wrong");
             return;

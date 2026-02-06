@@ -90,7 +90,7 @@ namespace WebApi.Controllers
             }
 
             var status = await repository.SaveChangesAsync();
-            return Ok(status);
+            return Ok(invoice.Id);
         }
 
         [HttpDelete("{id}")]

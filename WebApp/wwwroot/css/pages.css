@@ -455,6 +455,11 @@
     color: var(--accent-copper);
 }
 
+.transaction-status.invalid {
+    background-color: rgba(229, 57, 53, 0.2);
+    color: #e57373;
+}
+
 /* ========================================
    Market Stats
 ======================================== */
