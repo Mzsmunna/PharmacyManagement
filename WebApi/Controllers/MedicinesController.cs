@@ -26,6 +26,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetById(string id)
         {
             //MedicineDto? data = null;
+            if(!Guid.TryParse(id, out _)) throw new AppException(AppError.Bad(typeof(Medicine).Name + ".BadRequest"));
             var result = await repository.GetByIdAsNoTrackAsync(id);
             if (result == null) throw new AppException(AppError.NotFound(typeof(Medicine).Name + ".NotFound", $"No {typeof(Medicine).Name} available for id: " + id));
             //data = result.ToModel<MedicineDto, Medicine>();
@@ -33,10 +34,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("Includes/{id}")]
-        public async Task<IActionResult> GetWithJoins(string id)
+        public async Task<IActionResult> GetWithJoins(string? id)
         {
-            var result = await dBContext.Set<Medicine>().Where(x => x.Id == id).Include(y => y.Batches).ToListAsync();
-            if (result == null || result.Count <= 0) throw new AppException(AppError.NotFound(typeof(Medicine).Name + ".NotFound", $"No {typeof(Medicine).Name} available for id: " + id));
+            //if (!string.IsNullOrEmpty(id) && id.Equals("''")) id = "";
+            if(!Guid.TryParse(id, out _)) id = "";
+            var result =
+               string.IsNullOrEmpty(id) ? await dBContext.Set<Medicine>().Include(y => y.Batches).ToListAsync()
+               : await dBContext.Set<Medicine>().Where(x => x.Id == id).Include(y => y.Batches).ToListAsync();
+            if (result == null) result = []; //throw new AppException(AppError.NotFound(typeof(Medicine).Name + ".NotFound", $"No {typeof(Medicine).Name} available for id: " + id));
             return Ok(result);
         }
 
