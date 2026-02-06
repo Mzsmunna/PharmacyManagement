@@ -68,7 +68,11 @@ medsBatchForm.addEventListener("submit", async (e) => {
     let medBatchExp = document.getElementById("medBatchExp").value;
     if (medBatchExp) medBatchExp = new Date(medBatchExp);
     if (isNaN(medBatchExp.getTime()) 
-    || medBatchExp < new Date()) medBatchExpIV.style.display = "inline";
+    || medBatchExp < new Date())
+    {
+        medBatchExpIV.style.display = "inline";
+        return;
+    }
     else medBatchExpIV.style.display = "none";
   
     console.log("medBatchNo:", medBatchNo);
@@ -97,7 +101,7 @@ medsBatchForm.addEventListener("submit", async (e) => {
         medBatchId = await res.text();
         if (medBatchId)
         {
-            med = await apiRequest("GET", apiUrl + medId);
+            med = await apiRequest("GET", apiUrl + "Batches/" + medId);
             console.log("medicine:", med);
         }
     }

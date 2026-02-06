@@ -1,5 +1,6 @@
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Persistence.DB;
 
@@ -25,6 +26,7 @@ namespace WebApi
             }).AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
