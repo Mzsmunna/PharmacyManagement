@@ -28,6 +28,21 @@ async function getMedicines() {
 }
 getMedicines();
 
+function LoadInvMedBilling()
+{
+    selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
+    document.getElementById("invoiceQt").max = selectedBatch.Quantity;
+    console.log(selectedBatch);
+    if (selectedBatch) invoiceForm.style.display = "block";
+    else return;
+    //document.getElementById("invoiceNo").value = selectedBatch.No;
+    document.getElementById("invoiceUp").value = selectedBatch.UnitPrice;
+    document.getElementById("invoiceQt").value = 1; //selectedBatch.Quantity;
+    document.getElementById("invoiceCurr").value = selectedBatch.Currency;
+    document.getElementById("invoiceDisc").value = selectedBatch.Discount;
+    document.getElementById("invoiceExp").value = formatDateGmt(selectedBatch.ExpiryDate);
+}
+
 function LoadInvMedBatchesDD() {
     invoiceForm.style.display = "none";
     const select = document.getElementById("invoiceBatches");
@@ -45,21 +60,16 @@ function LoadInvMedBatchesDD() {
       {
         option.selected = true;
         selectedBatchId = item.Id;
-        selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
-        document.getElementById("invoiceQt").max = selectedBatch.Quantity;
+        LoadInvMedBilling();
       }
       
-      invoiceForm.style.display = "block";
+      //invoiceForm.style.display = "block";
       select.appendChild(option);
     });
 
     select.addEventListener("change", (e) => {
         selectedBatchId = e.target.value;
-        selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
-        document.getElementById("invoiceQt").max = selectedBatch.Quantity;
-        console.log(selectedBatch);
-        if (selectedBatch && selectedBatch.length) invoiceForm.style.display = "block";
-        else return;
+        LoadInvMedBilling();
     });
 }
 
