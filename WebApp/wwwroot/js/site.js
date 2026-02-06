@@ -53,6 +53,16 @@ function isAuthenticated() {
     return true;
 }
 
+function isValidGuid(value) {
+  return /^\{?[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}\}?$/.test(value);
+}
+
+function isValidGuidV7(value) {
+  const v7Regex =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+  return v7Regex.test(value);
+}
+
 async function apiRequest(method, url, payload, options = {}) {
     if (!url) throw new Error("URL is required");
     if (!method) method = "GET";

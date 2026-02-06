@@ -32,7 +32,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("Batches/{id}")]
+        [HttpGet("Includes/{id}")]
         public async Task<IActionResult> GetWithJoins(string id)
         {
             var result = await dBContext.Set<Medicine>().Where(x => x.Id == id).Include(y => y.Batches).ToListAsync();

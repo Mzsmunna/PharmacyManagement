@@ -1,10 +1,9 @@
 ﻿console.log("Medicine script loaded.");
 const medsForm = document.getElementById("medsForm");
-const apiUrl = "https://localhost:7000/api/Medicines/";
+const apiUrl = "https://localhost:7000/api/Medicines/Includes/";
 const batchApiUrl = "https://localhost:7000/api/MedicineBatches/";
 
-let medId = "";
-let med = null;
+
 async function getMedicine(id) {
     document.getElementById("medCardTitle").textContent = "New Medicine";
     document.getElementById("medAddEdit").textContent = "+ Add Medicine";
@@ -12,6 +11,7 @@ async function getMedicine(id) {
     {
         res = await apiRequest("GET", apiUrl + id);
         med = await res.json();
+        med = Array.isArray(med) && med.length ? med[0] : med;
         console.log("medicine:", med);
         if (med) {
             document.getElementById("medCardTitle").textContent = "Edit Medicine";
@@ -23,6 +23,17 @@ async function getMedicine(id) {
         }
     }
 }
+
+let med = null;
+let medId = new URLSearchParams(location.search).get("medId");
+if (medId && isValidGuidV7(medId)) {
+  console.log("Valid Medicine GUID v7:", medId);
+  getMedicine(medId);
+}
+else {
+    medId = "";
+    med = null;
+} 
 
 const medsBatchForm = document.getElementById("medsBatchForm");
 medsBatchForm.style.display = "none";
@@ -53,7 +64,7 @@ medsForm.addEventListener("submit", async (e) => {
         return;
     }
     medId = await res.text();
-    getMedicine(medId);
+    await getMedicine(medId);
   }
 });
 
@@ -101,8 +112,8 @@ medsBatchForm.addEventListener("submit", async (e) => {
         medBatchId = await res.text();
         if (medBatchId)
         {
-            med = await apiRequest("GET", apiUrl + "Batches/" + medId);
-            console.log("medicine:", med);
+            //med = await apiRequest("GET", apiUrl + medId);
+            //console.log("medicine:", med);
         }
     }
 });
