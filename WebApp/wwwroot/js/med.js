@@ -2,6 +2,8 @@
 const medsForm = document.getElementById("medsForm");
 const medCancel = document.getElementById("medCancel");
 medCancel.style.display = "none";
+const medDel = document.getElementById("medDel");
+medDel.style.display = "none";
 const apiUrl = "https://localhost:7000/api/Medicines/";
 const batchApiUrl = "https://localhost:7000/api/MedicineBatches/";
 
@@ -28,6 +30,7 @@ async function getMedicine(id) {
             document.getElementById("medAddEdit").textContent = "Save Changes";
             medsBatchForm.style.display = "block";
             medCancel.style.display = "block";
+            medDel.style.display = "block";
 
             LoadBatchTable();
         }
@@ -73,7 +76,7 @@ function LoadBatchTable() {
                     <td>
                         <div class="btn-group">
                             <button class="btn primary med-batches" data-id="${medBatch.Id}">Edit / View</button>
-                            <button class="btn danger">Delete</button>
+                            <button class="btn danger med-batches-del" data-id="${medBatch.Id}">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -85,6 +88,20 @@ function LoadBatchTable() {
             btn.addEventListener("click", async (e) => {
                 const id = e.currentTarget.dataset.id;
                 await LoadMedicineBatch(id);
+            });
+        });
+
+        document.querySelectorAll(".med-batches-del").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.currentTarget.dataset.id;
+                if (!id) return;
+                const res = await apiRequest("DELETE", batchApiUrl + id, {});
+                if (!res.ok) {
+                    alert("Something went wrong");
+                    return;
+                }
+                const status = await res.text();
+                if (status) await getMedicine(medId);
             });
         });
     }
@@ -116,6 +133,17 @@ let medBatch = null;
 let med = null;
 let medId = new URLSearchParams(location.search).get("medId");
 if (medId) LoadMedicine(medId);
+
+document.getElementById("medDel").addEventListener("click", async (e) => {
+    if (!med || !med.Id) return;
+    const res = await apiRequest("DELETE", apiUrl + med.Id, {});
+    if (!res.ok) {
+        alert("Something went wrong");
+        return;
+    }
+    const status = await res.text();
+    if (status) window.location.href = '/Dashboard/Index';
+});
 
 //document.getElementById("medEV").addEventListener("click", async (e) => {
 //    const id = e.currentTarget.dataset.id;
