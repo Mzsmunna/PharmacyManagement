@@ -1,4 +1,13 @@
-﻿var token = getJwtToken();
+﻿$(document).ready( function() {
+    //$(":input").inputmask(); 9{2}[-]9{2}[-]9{2}
+    Inputmask("99-99-99", {
+        placeholder: "-",
+        greedy: false
+    }).mask('.form-date');
+});
+
+
+var token = getJwtToken();
 
 isAuthenticated();
 
