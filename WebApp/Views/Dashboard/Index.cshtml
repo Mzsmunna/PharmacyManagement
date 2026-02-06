@@ -233,35 +233,36 @@
                 </div>
                 <div class="profile-info">
                     <h2>New Invoice</h2>
-                    <p>alex.morgan@email.com</p>
+                    <p></p>
                     <span class="profile-badge">Invoicer</span>
                 </div>
             </div>
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label" id="custName">Customer Name</label>
-                    <input type="text" class="form-input" placeholder="Name" value="" required>
+            <form class="auth-form active" id="invoiceInfoForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Customer Name</label>
+                        <input type="text" id="custName" class="form-input" placeholder="Name" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="custNum" class="form-input" placeholder="Number" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Medicine Name</label>
+                        <select id="invoiceMeds" class="form-select" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Medicine Batch</label>
+                        <select class="form-select" id="invoiceBatches">
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" id="custNum">Phone Number</label>
-                    <input type="tel" class="form-input" placeholder="Number" value="" required>
+                <div class="btn-group">
+                    <button class="btn primary" id="invoiceSave">Save Invoice</button>
+                    <button class="btn" id="invoiceCancel">Cancel</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Medicine Name</label>
-                    <select id="invoiceMeds" class="form-select" required>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Medicine Batch</label>
-                    <select class="form-select" id="invoiceBatches">
-                    </select>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="btn primary">Save Changes</button>
-                <button class="btn">Cancel</button>
-            </div>
+            </form>
         </div>
 
         <div class="card" id="invoiceForm">
@@ -302,7 +303,6 @@
 
                 <div class="btn-group">
                     <button type="submit" id="invoiceAddEdit" class="btn primary">+ Add to Invoice</button>
-                    <button type="button" class="btn">Cancel</button>
                 </div>
             </form>
         </div>
@@ -310,7 +310,6 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Invoice List</h3>
-                <p class="card-description">Preserve Invoice Copy</p>
             </div>
 
             <!-- Medicine Batch Table -->

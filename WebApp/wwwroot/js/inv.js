@@ -8,14 +8,7 @@ invoiceForm.style.display = "none";
 const invoiceExpIV = document.getElementById("invoiceExpIV");
 invoiceExpIV.style.display = "none";
 var invoiceItems = [];
-
-var invoicePayload = {
-  items: [],
-  //discount: 0,
-  //currency: "",
-  customerName: "",
-  customerPhone: ""
-};
+const invApiUrl = "https://localhost:7000/api/Invoices/";
 
 async function getMedicines() {
     res = await apiRequest("GET", apiUrl + "Includes/''");
@@ -177,9 +170,13 @@ function LoadInvoiceList() {
     if (invoiceItems && invoiceItems.length)
     {
         let totalQt = 0;
+        let totalUp = 0;
+        let totalDisc = 0;
         invoiceItems.forEach(medBatch => {
             //if (!medBatch) return;
             if (medBatch.Quantity) totalQt += medBatch.Quantity;
+            if (medBatch.UnitPrice) totalUp += (medBatch.UnitPrice * medBatch.Quantity);
+            if (medBatch.Discount) totalDisc += medBatch.Discount;
             const row = `
                 <tr>
                     <td><span class="price-cell">${medBatch.BatchNo}</span></td>
@@ -204,8 +201,21 @@ function LoadInvoiceList() {
                     </td>
                 </tr>
               `;
-            tbody.insertAdjacentHTML("beforeend", row);        
+            tbody.insertAdjacentHTML("beforeend", row);
         });
+
+        const row = `
+            <tr>
+                <td><span class="price-cell"></span></td>
+                <td class="change-cell">Total</td>
+                <td class="change-cell">${totalQt}</td>
+                <td class="price-cell">${totalUp}</td>
+                <td class="volume-cell">${totalDisc}%</td>
+                <td class="change-cell"></td>
+                <td></td>
+            </tr>
+        `;
+        tbody.insertAdjacentHTML("beforeend", row);   
 
         document.querySelectorAll(".inv-med-batches").forEach(btn => {
             btn.addEventListener("click", async (e) => {
@@ -285,5 +295,34 @@ invoiceForm.addEventListener("submit", async (e) => {
     }
     console.log("InvoiceItems:", invoiceItems);
     LoadInvoiceList();
+});
+
+document.getElementById("invoiceSave").addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const custName = document.getElementById("custName").value;
+    const custNum = document.getElementById("custNum").value;
+
+    if (!invoiceItems || !custName || !custNum) return;
+
+    const disc =
+    invoiceItems.reduce((sum, x) => sum + x.Discount, 0) / invoiceItems.length;
+    var payload = {
+          items: invoiceItems,
+          Discount: disc,
+          Currency: "$",
+          CustomerName: custName,
+          CustomerPhone: custNum
+    };
+    const res = await apiRequest("POST", invApiUrl, payload);
+        if (!res.ok) {
+            alert("Something went wrong");
+            return;
+        }
+        var invoiceId = await res.text();
+        if (invoiceId)
+        {
+            getMedicines();
+        }
 });
 
