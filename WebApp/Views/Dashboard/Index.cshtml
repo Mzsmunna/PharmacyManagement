@@ -43,7 +43,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="profile-info">
+                <div class="profile-info" id="medInfo">
                     <h2>Medicine Name</h2>
                     <p>Medicine Deatils</p>
                     <span class="profile-badge">Medicine Type</span>
@@ -77,7 +77,7 @@
 
                 <div class="btn-group">
                     <button type="submit" id="medAddEdit" class="btn primary">+ Add Medicine</button>
-                    <button class="btn">Cancel</button>
+                    <button type="button" class="btn">Cancel</button>
                 </div>
             </form>
         </div>
@@ -125,7 +125,7 @@
 
                 <div class="btn-group">
                     <button type="submit" id="medBatchAddEdit" class="btn primary">+ Add Batch</button>
-                    <button class="btn">Cancel</button>
+                    <button type="button" class="btn">Cancel</button>
                 </div>
             </form>
         </div>
@@ -150,30 +150,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="price-cell">Batch 123</span></td>
-                            <td>
-                                <div class="coin-cell">
-                                    <div class="coin-icon btc">M</div>
-                                    <div>
-                                        <div class="coin-name">Medicine Name</div>
-                                        <div class="coin-symbol">Medicine Details</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="change-cell positive">Medicine Quantity 0</td>
-                            <td class="price-cell">Medicine Price $0.00</td>
-                            <td class="volume-cell">Medicine Discount 0%</td>
-                            <td class="change-cell negative">Medicine Expiry Date</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn primary med-batches" data-id="019c31bb-956c-7c9c-8a1f-051fcaaaea93">Edit / View</button>
-                                    <button class="btn danger">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <tbody id="med-batches-tbody"></tbody>
                 </table>
             </div>
         </div>

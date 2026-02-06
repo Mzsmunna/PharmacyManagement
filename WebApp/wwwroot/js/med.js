@@ -13,12 +13,20 @@ async function getMedicine(id) {
         med = Array.isArray(med) && med.length ? med[0] : med;
         console.log("medicine:", med);
         if (med) {
-            document.getElementById("medCardTitle").textContent = "Edit Medicine";
-            document.getElementById("medAddEdit").textContent = "Save Changes";
-            medsBatchForm.style.display = "block";
+            const card = document.getElementById("medInfo");
+            card.querySelector("h2").textContent = med.Name;
+            card.querySelector("p").textContent = med.Description;
+            card.querySelector("span").textContent = med.Type;
+
             document.getElementById("medName").value = med.Name;
             document.getElementById("medType").value = med.Type;
             document.getElementById("medDesc").value = med.Description;
+
+            document.getElementById("medCardTitle").textContent = "Edit Medicine";
+            document.getElementById("medAddEdit").textContent = "Save Changes";
+            medsBatchForm.style.display = "block";
+
+            LoadBatchTable();
         }
     }
 }
@@ -31,6 +39,51 @@ async function LoadMedicine(id) {
     else {
         medId = "";
         med = null;
+    }
+}
+
+function LoadBatchTable() {
+    const tbody = document.getElementById("med-batches-tbody");
+    tbody.innerHTML = "";
+    if (med && med.Batches && med.Batches.length)
+    {
+        let totalQt = 0;
+        med.Batches.forEach(medBatch => {
+            //if (!medBatch) return;
+            if (medBatch.Quantity) totalQt += medBatch.Quantity;
+            const row = `
+                <tr>
+                    <td><span class="price-cell">${medBatch.No}</span></td>
+                    <td>
+                        <div class="coin-cell">
+                            <div class="coin-icon btc">M</div>
+                            <div>
+                                <div class="coin-name">${med.Name} | ${med.Type}</div>
+                                <div class="coin-symbol">${med.Description}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="change-cell positive">${medBatch.Quantity}</td>
+                    <td class="price-cell">${medBatch.UnitPrice}${medBatch.Currency}</td>
+                    <td class="volume-cell">${medBatch.Discount}%</td>
+                    <td class="change-cell negative">${formatDateGmt(medBatch.ExpiryDate)}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn primary med-batches" data-id="${medBatch.Id}">Edit / View</button>
+                            <button class="btn danger">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+              `;
+            tbody.insertAdjacentHTML("beforeend", row);        
+        });
+
+        document.querySelectorAll(".med-batches").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.currentTarget.dataset.id;
+                await LoadMedicineBatch(id);
+            });
+        });
     }
 }
 
@@ -70,14 +123,6 @@ if (medId) LoadMedicine(medId);
 //    const id = e.currentTarget.dataset.id;
 //    await LoadMedicineBatch(id);
 //});
-
-document.querySelectorAll(".med-batches").forEach(btn => {
-  btn.addEventListener("click", async (e) => {
-    const id = e.currentTarget.dataset.id;
-    await LoadMedicineBatch(id);
-  });
-});
-
 
 const medsBatchForm = document.getElementById("medsBatchForm");
 medsBatchForm.style.display = "none";
