@@ -3,9 +3,11 @@ const medsForm = document.getElementById("medsForm");
 const apiUrl = "https://localhost:7000/api/Medicines/";
 
 setTimeout(() => {
-const medsBatchForm = document.getElementById("medsBatchForm");
-  medsBatchForm.style.display = "none";
+
+  
 }, 2000);
+const medsBatchForm = document.getElementById("medsBatchForm");
+medsBatchForm.style.display = "none";
 
 let medId = "";
 let med = null;

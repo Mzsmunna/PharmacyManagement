@@ -1,4 +1,8 @@
-﻿function setJwtToken(token) {
+﻿var token = getJwtToken();
+
+isAuthenticated();
+
+function setJwtToken(token) {
     localStorage.setItem("jwt_token", token);
 }
 
@@ -30,7 +34,13 @@ function isTokenValid(token) {
 
 function isAuthenticated() {
     const token = getJwtToken();
-    if (!isTokenValid(token)) window.location.href = "/Auth/Index";
+    if (!isTokenValid(token)) 
+    {
+        if (window.location.pathname === "/Auth/Index") {
+          return false;
+        }
+        else window.location.href = "/Auth/Index";
+    }
     return true;
 }
 
