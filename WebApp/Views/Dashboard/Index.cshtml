@@ -249,29 +249,19 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Medicine Name</label>
-                    <select id="medType" class="form-select" required>
-                        <option value="Tablet" selected>Tablet</option>
-                        <option value="Capsule">Capsule</option>
-                        <option value="Syrup">Syrup</option>
-                        <option value="Injection">Injection</option>
-                        <option value="Drops">Drops</option>
-                        <option value="Inhaler">Inhaler</option>
-                        <option value="Suppository">Suppository</option>
-                        <option value="Cream">Cream</option>
-                        <option value="Ointment">Ointment</option>
+                    <select id="invoiceMeds" class="form-select" required>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Medicine Batch</label>
-                    <select class="form-select" id="invoiceBatch">
-                        <option value="$" selected>$</option>
-                        <option value="€">€</option>
-                        <option value="₹">Rupee</option>
-                        <option value="BDT">BDT</option>
+                    <select class="form-select" id="invoiceBatches">
                     </select>
                 </div>
             </div>
-
+            <div class="btn-group">
+                <button class="btn primary">Save Changes</button>
+                <button class="btn">Cancel</button>
+            </div>
         </div>
 
         <div class="card" id="invoiceForm">

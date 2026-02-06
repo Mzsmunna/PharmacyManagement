@@ -1,19 +1,20 @@
-﻿//const apiUrl = "https://localhost:7000/api/Medicines/";
-var meds = [];
+﻿var meds = [];
+var selectedMedId = "";
+var selectedMed = null;
+var selectedBatchId = "";
+var selectedBatch = null;
+const invoiceForm = document.getElementById("invoiceForm");
+invoiceForm.style.display = "none";
+const invoiceExpIV = document.getElementById("invoiceExpIV");
+invoiceExpIV.style.display = "none";
+var invoiceItems = [];
+
 var invoicePayload = {
   items: [],
   //discount: 0,
   //currency: "",
   customerName: "",
   customerPhone: ""
-};
-
-var itemPayload = {
-  medicineId: "",
-  batchNo: "",
-  quantity: 0,
-  unitPrice: 0,
-  discount: 0
 };
 
 async function getMedicines() {
@@ -27,6 +28,68 @@ async function getMedicines() {
 }
 getMedicines();
 
+function LoadInvMedBatchesDD() {
+    invoiceForm.style.display = "none";
+    const select = document.getElementById("invoiceBatches");
+
+    // clear existing options
+    select.innerHTML = "";
+
+    selectedMed.Batches.forEach((item, index) => {
+      const option = document.createElement("option");
+      option.value = item.Id;
+      option.textContent = item.No;
+
+      // select first item
+      if (index === 0) 
+      {
+        option.selected = true;
+        selectedBatchId = item.Id;
+        selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
+      }
+      
+      invoiceForm.style.display = "block";
+      select.appendChild(option);
+    });
+
+    select.addEventListener("change", (e) => {
+        selectedBatchId = e.target.value;
+        selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
+        console.log(selectedBatch);
+        if (selectedBatch && selectedBatch.length) invoiceForm.style.display = "block";
+        else return;
+    });
+}
+
+function LoadInvoiceMedsDD() {
+
+    const select = document.getElementById("invoiceMeds");
+
+    // clear existing options
+    select.innerHTML = "";
+
+    meds.forEach((item, index) => {
+      const option = document.createElement("option");
+      option.value = item.Id;
+      option.textContent = item.Name;     
+
+      // select first item
+      if (index === 0)
+      {
+        option.selected = true;
+      }
+      
+      select.appendChild(option);
+    });
+
+    select.addEventListener("change", (e) => {
+      selectedMedId = e.target.value;
+      selectedMed = meds.find(b => b.Id === selectedMedId);
+      console.log(selectedMed);
+      LoadInvMedBatchesDD();
+    });
+}
+
 function LoadInventoryTable() {
     const tbody = document.getElementById("meds-inv-tbody");
     tbody.innerHTML = "";
@@ -34,7 +97,14 @@ function LoadInventoryTable() {
     if (meds && meds.length)
     {
         let count = 0;
-        meds.forEach(med => {
+        meds.forEach((med, index) => {
+            if (index == 0)
+            {
+                selectedMedId = med.Id;
+                selectedMed = med;
+                LoadInvMedBatchesDD();
+            }
+            
             const totalQt = med.Batches.reduce((sum, item) => sum + item.Quantity, 0);
             count++;
             //if (!med) return;
@@ -62,7 +132,6 @@ function LoadInventoryTable() {
             `;
             tbody.insertAdjacentHTML("beforeend", row);
         });
-
         
         document.querySelectorAll(".meds-inv").forEach(btn => {
             btn.addEventListener("click", async (e) => {
@@ -86,4 +155,43 @@ function LoadInventoryTable() {
             });
         });
     }
+    LoadInvoiceMedsDD();
 }
+
+invoiceForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const invoiceUp = document.getElementById("invoiceUp").value;
+    const invoiceQt = document.getElementById("invoiceQt").value;
+    const invoiceCurr = document.getElementById("invoiceCurr").value;
+    const invoiceDisc = document.getElementById("invoiceDisc").value;
+    let invoiceExp = document.getElementById("invoiceExp").value;
+    if (invoiceExp) invoiceExp = new Date(invoiceExp);
+    if (isNaN(invoiceExp.getTime()) 
+    || invoiceExp < new Date())
+    {
+        invoiceExpIV.style.display = "inline";
+        return;
+    }
+    else invoiceExpIV.style.display = "none";
+    const httpMethod = "POST";
+    var invoicePayload = {
+      medicineId: selectedMedId,
+      bactchId: selectedBatch.Id,
+      batchNo: selectedBatch.No,
+      quantity: invoiceQt,
+      unitPrice: invoiceUp,
+      discount: invoiceDisc
+    };
+  
+    console.log("InvoicePayload:", invoicePayload);
+
+    if (medId && medBatchNo && medBatchUp && medBatchQt && medBatchExp) {      
+        const res = await apiRequest(httpMethod, batchApiUrl, payload);
+        if (!res.ok) {
+            alert("Something went wrong");
+            return;
+        }
+    }
+});
+
