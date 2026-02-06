@@ -20,7 +20,7 @@
     <div class="settings-tabs">
         <button class="settings-tab active" data-tab="profile">Store</button>
         <button class="settings-tab" data-tab="security">Inventory</button>
-        <button class="settings-tab" data-tab="notifications">Notifications</button>
+        <button class="settings-tab" data-tab="notifications">Invoice</button>
         <button class="settings-tab" data-tab="preferences">Preferences</button>
         <button class="settings-tab" data-tab="connected">Connected</button>
     </div>
@@ -88,7 +88,7 @@
         <div class="card" id="medsBatchForm">
             <div class="card-header">
                 <h3 class="card-title" id="medBatchCardTitle">New Batch</h3>
-                <p class="card-description">Manage your API access for third-party integrations</p>
+                <p class="card-description">Preserve new Batch to Inventory</p>
             </div>
 
             <form class="auth-form active">
@@ -135,7 +135,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Medicine Batches</h3>
-                <p class="card-description">Preserve Medicine Batches</p>
+                <p class="card-description">Manage Medcine Batches</p>
             </div>
 
             <!-- Medicine Batch Table -->
@@ -200,15 +200,15 @@
             </div>
         </div>
 
-        <!-- Market Table -->
+        <!-- Medicine Table -->
         <div class="card">
             <table class="market-table">
                 <thead>
                     <tr>
                         <th># No</th>
                         <th>Medicine Name</th>
-                        <th>Medicine Type</th>
-                        <th>Medicine Details</th>
+                        <th class="text-right">Medicine Type</th>
+                        <th class="text-right">Medicine Details</th>
                         <th class="text-right">Stocks</th>
                         <th>Actions</th>
                     </tr>
@@ -221,59 +221,127 @@
     <!-- Notification Settings -->
     <div class="settings-content" id="notifications">
         <div class="card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    IN
+                    <div class="avatar-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h2>New Invoice</h2>
+                    <p>alex.morgan@email.com</p>
+                    <span class="profile-badge">Invoicer</span>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" id="custName">Customer Name</label>
+                    <input type="text" class="form-input" placeholder="Name" value="" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="custNum">Phone Number</label>
+                    <input type="tel" class="form-input" placeholder="Number" value="" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Medicine Name</label>
+                    <select id="medType" class="form-select" required>
+                        <option value="Tablet" selected>Tablet</option>
+                        <option value="Capsule">Capsule</option>
+                        <option value="Syrup">Syrup</option>
+                        <option value="Injection">Injection</option>
+                        <option value="Drops">Drops</option>
+                        <option value="Inhaler">Inhaler</option>
+                        <option value="Suppository">Suppository</option>
+                        <option value="Cream">Cream</option>
+                        <option value="Ointment">Ointment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Medicine Batch</label>
+                    <select class="form-select" id="invoiceBatch">
+                        <option value="$" selected>$</option>
+                        <option value="€">€</option>
+                        <option value="₹">Rupee</option>
+                        <option value="BDT">BDT</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card" id="invoiceForm">
             <div class="card-header">
-                <h3 class="card-title">Notification Preferences</h3>
-                <p class="card-description">Choose how you want to receive updates</p>
+                <h3 class="card-title" id="invoiceCardTitle">Medicine Billing</h3>
+                <p class="card-description">List out available Medicines</p>
             </div>
 
-            <div class="toggle-item">
-                <div class="toggle-info">
-                    <div class="toggle-title">Price Alerts</div>
-                    <div class="toggle-description">Get notified when prices hit your targets</div>
+            <form class="auth-form active">
+                <div class="form-grid-trio">
+                    <div class="form-group">
+                        <label class="form-label">Unit Price</label>
+                        <input type="number" id="invoiceUp" class="form-input" placeholder="Amount" value="1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Currency</label>
+                        <select class="form-select" id="invoiceCurr">
+                            <option value="$" selected>$</option>
+                            <option value="€">€</option>
+                            <option value="₹">Rupee</option>
+                            <option value="BDT">BDT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" id="invoiceQt" class="form-input" value="1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Discount</label>
+                        <input type="text" id="invoiceDisc" class="form-input" value="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        @* <span class="transaction-value negative">Invalid</span> *@
+                        <label class="form-label">Expiry Date <span id="invoiceExpIV" class="transaction-status invalid" style="display:none;float:right"> Invalid Date</span></label>
+                        <input type="text" id="invoiceExp" class="form-input form-date" placeholder="MM-DD-YY" value="" required>
+                    </div>
                 </div>
-                <div class="toggle-switch active"></div>
+
+                <div class="btn-group">
+                    <button type="submit" id="invoiceAddEdit" class="btn primary">+ Add to Invoice</button>
+                    <button type="button" class="btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Invoice List</h3>
+                <p class="card-description">Preserve Invoice Copy</p>
             </div>
 
-            <div class="toggle-item">
-                <div class="toggle-info">
-                    <div class="toggle-title">Transaction Updates</div>
-                    <div class="toggle-description">Receive alerts for deposits, withdrawals, and trades</div>
-                </div>
-                <div class="toggle-switch active"></div>
-            </div>
-
-            <div class="toggle-item">
-                <div class="toggle-info">
-                    <div class="toggle-title">Security Alerts</div>
-                    <div class="toggle-description">Important security notifications and login alerts</div>
-                </div>
-                <div class="toggle-switch active"></div>
-            </div>
-
-            <div class="toggle-item">
-                <div class="toggle-info">
-                    <div class="toggle-title">Marketing Emails</div>
-                    <div class="toggle-description">News, updates, and promotional offers</div>
-                </div>
-                <div class="toggle-switch"></div>
-            </div>
-
-            <div class="toggle-item">
-                <div class="toggle-info">
-                    <div class="toggle-title">Weekly Report</div>
-                    <div class="toggle-description">Portfolio performance summary every week</div>
-                </div>
-                <div class="toggle-switch active"></div>
-            </div>
-
-            <div class="toggle-item">
-                <div class="toggle-info">
-                    <div class="toggle-title">Push Notifications</div>
-                    <div class="toggle-description">Enable browser push notifications</div>
-                </div>
-                <div class="toggle-switch"></div>
+            <!-- Medicine Batch Table -->
+            <div class="card">
+                <table class="market-table">
+                    <thead>
+                        <tr>
+                            <th># Batch No</th>
+                            <th>Medicine Name</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Unit Price</th>
+                            <th class="text-right">Discount %</th>
+                            <th class="text-right">Expiry Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoices-tbody"></tbody>
+                </table>
             </div>
         </div>
+
     </div>
 
     <!-- Preferences Settings -->

@@ -1,5 +1,20 @@
 ﻿//const apiUrl = "https://localhost:7000/api/Medicines/";
 var meds = [];
+var invoicePayload = {
+  items: [],
+  //discount: 0,
+  //currency: "",
+  customerName: "",
+  customerPhone: ""
+};
+
+var itemPayload = {
+  medicineId: "",
+  batchNo: "",
+  quantity: 0,
+  unitPrice: 0,
+  discount: 0
+};
 
 async function getMedicines() {
     res = await apiRequest("GET", apiUrl + "Includes/''");

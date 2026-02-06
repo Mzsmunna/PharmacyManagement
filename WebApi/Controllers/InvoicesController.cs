@@ -46,8 +46,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Add(InvoicePayload payload)
         {
             if (payload == null || 
-                payload.user == null || 
-                payload.Items == null || 
+                //payload.user == null ||
+                string.IsNullOrEmpty(payload.CustomerName) ||
+                string.IsNullOrEmpty(payload.CustomerPhone) ||
+                payload.Items == null ||
                 payload.Items.Count <= 0)
                 throw new AppException(AppError.Bad(typeof(Invoice).Name + ".BadRequest"));
 
@@ -55,9 +57,9 @@ namespace WebApi.Controllers
                 Items = payload.Items.Count, 
                 Total = 0,
                 Currency = payload.Currency,
-                CustomerId = payload.user.Id,
-                CustomerName = payload.user.Name,
-                CustomerPhone = payload.user.Phone,
+                CustomerId = "", //payload.user.Id,
+                CustomerName = payload.CustomerName,
+                CustomerPhone = payload.CustomerPhone,
             };
 
             foreach (var item in payload.Items)

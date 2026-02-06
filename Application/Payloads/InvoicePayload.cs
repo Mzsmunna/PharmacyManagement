@@ -9,8 +9,10 @@ namespace Application.Payloads
 {
     public record InvoicePayload(
         List<ItemPayload> Items,
-        UserDto user,
+        //UserDto user,
         int Discount = 0, // %
-        string Currency = ""
+        string Currency = "",
+        string CustomerName = "",
+        string CustomerPhone = ""
     );
 }
