@@ -1,6 +1,6 @@
 ﻿console.log("Medicine script loaded.");
 const medsForm = document.getElementById("medsForm");
-const apiUrl = "https://localhost:7000/api/Medicines/Includes/";
+const apiUrl = "https://localhost:7000/api/Medicines/";
 const batchApiUrl = "https://localhost:7000/api/MedicineBatches/";
 
 async function getMedicine(id) {
@@ -8,7 +8,7 @@ async function getMedicine(id) {
     document.getElementById("medAddEdit").textContent = "+ Add Medicine";
     if (id)
     {
-        res = await apiRequest("GET", apiUrl + id);
+        res = await apiRequest("GET", apiUrl + "Includes/" + id);
         med = await res.json();
         med = Array.isArray(med) && med.length ? med[0] : med;
         console.log("medicine:", med);
@@ -130,31 +130,45 @@ const medBatchExpIV = document.getElementById("medBatchExpIV");
 medBatchExpIV.style.display = "none";
 
 medsForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const medName = document.getElementById("medName").value;
-  const medType = document.getElementById("medType").value;
-  const medDesc = document.getElementById("medDesc").value;
-  
-  console.log("medName:", medName);
-  console.log("medType:", medType);
-  console.log("medDesc:", medDesc);
-
-  if (medName && medType && medDesc) {      
+    e.preventDefault();
+    const medName = document.getElementById("medName").value;
+    const medType = document.getElementById("medType").value;
+    const medDesc = document.getElementById("medDesc").value;
+    const httpMethod = (med && med.Id) ? "PUT" : "POST";
     var payload = {
         Name: medName,
         Type: medType,
         Description: medDesc,
         Image: "",
     };
-    let res = await apiRequest("POST", apiUrl, payload);
-    if (!res.ok) {
-        alert("Something went wrong");
-        return;
+ 
+    console.log("medName:", medName);
+    console.log("medType:", medType);
+    console.log("medDesc:", medDesc);
+
+    if (medName && medType && medDesc) {      
+    
+        if (med && med.Id && httpMethod == "PUT")
+        {
+            med.Name = document.getElementById("medName").value;
+            med.Type = document.getElementById("medType").value;
+            med.Description = document.getElementById("medDesc").value;
+            payload = med;
+        }
+        let res = await apiRequest(httpMethod, apiUrl, payload);
+        if (!res.ok) {
+            alert("Something went wrong");
+            return;
+        }
+        if (httpMethod == "GET")
+        {
+            medId = await res.text();
+        }
+        else if (httpMethod == "POST") {
+            //med = await res.json();
+        }
+        await getMedicine(medId);
     }
-    medId = await res.text();
-    await getMedicine(medId);
-  }
 });
 
 medsBatchForm.addEventListener("submit", async (e) => {
@@ -174,6 +188,16 @@ medsBatchForm.addEventListener("submit", async (e) => {
         return;
     }
     else medBatchExpIV.style.display = "none";
+    const httpMethod = (medBatch && medBatch.Id) ? "PUT" : "POST";
+    var payload = {
+        No: medBatchNo,
+        MedicineId: medId,
+        Quantity: medBatchQt,
+        UnitPrice: medBatchUp,
+        Discount: medBatchDisc,
+        Currency: medBatchCurr,
+        ExpiryDate: medBatchExp,
+    };
   
     console.log("medBatchNo:", medBatchNo);
     console.log("medBatchUp:", medBatchUp);
@@ -184,25 +208,32 @@ medsBatchForm.addEventListener("submit", async (e) => {
     console.log("medId:", medId);
 
     if (medId && medBatchNo && medBatchUp && medBatchQt && medBatchExp) {      
-        var payload = {
-            No: medBatchNo,
-            MedicineId: medId,
-            Quantity: medBatchQt,
-            UnitPrice: medBatchUp,
-            Discount: medBatchDisc,
-            Currency: medBatchCurr,
-            ExpiryDate: medBatchExp,
-        };
-        const res = await apiRequest("POST", batchApiUrl, payload);
+        if (medBatch && medBatch.Id && httpMethod == "PUT")
+        {
+            medBatch.No = document.getElementById("medBatchNo").value;
+            medBatch.UnitPrice = document.getElementById("medBatchUp").value;
+            medBatch.Quantity = document.getElementById("medBatchQt").value;
+            medBatch.Currency = document.getElementById("medBatchCurr").value;
+            medBatch.Discount = document.getElementById("medBatchDisc").value;
+            medBatch.ExpiryDate = medBatchExp;
+            payload = medBatch;
+        }
+        const res = await apiRequest(httpMethod, batchApiUrl, payload);
         if (!res.ok) {
             alert("Something went wrong");
             return;
         }
-        medBatchId = await res.text();
-        if (medBatchId)
+        if (httpMethod == "GET")
         {
-            //med = await apiRequest("GET", apiUrl + medId);
-            //console.log("medicine:", med);
+            medBatchId = await res.text();
+            if (medBatchId)
+            {
+                //console.log("medicine:", med);
+            }
         }
+        else if (httpMethod == "POST") {
+            //medBatch = await res.json();
+        }
+        await getMedicine(medId);
     }
 });
