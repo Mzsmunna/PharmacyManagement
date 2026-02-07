@@ -15,6 +15,6 @@ namespace Domain.Entities
         public string? Phone { get; set; } = string.Empty;
         
         // relations
-        public ICollection<Invoice> Invoices { get; set; } = [];
+        //public ICollection<Invoice> Invoices { get; set; } = [];
     }
 }

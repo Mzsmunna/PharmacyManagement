@@ -17,10 +17,10 @@ namespace Persistence.DB.Configs
 
             builder.HasIndex(pt => pt.InvoiceNo).IsUnique();
 
-            builder.HasOne(x => x.User)
-                .WithMany(f => f.Invoices)
-                .HasForeignKey(f => f.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(x => x.User)
+            //    .WithMany(f => f.Invoices)
+            //    .HasForeignKey(f => f.CustomerId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(x => x.InvoiceItems)
                 .WithOne(f => f.Invoice)
