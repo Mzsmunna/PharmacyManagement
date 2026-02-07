@@ -237,32 +237,18 @@
                     <span class="profile-badge">Invoicer</span>
                 </div>
             </div>
-            <form class="auth-form active" id="invoiceInfoForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Customer Name</label>
-                        <input type="text" id="custName" class="form-input" placeholder="Name" value="" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="tel" id="custNum" class="form-input" placeholder="Number" value="" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Medicine Name</label>
-                        <select id="invoiceMeds" class="form-select" required>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Medicine Batch</label>
-                        <select class="form-select" id="invoiceBatches">
-                        </select>
-                    </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Medicine Name</label>
+                    <select id="invoiceMeds" class="form-select" required>
+                    </select>
                 </div>
-                <div class="btn-group">
-                    <button type="submit" class="btn primary" id="invoiceSave">Save Invoice</button>
-                    <button type="button" class="btn" id="invoiceCancel">Cancel</button>
+                <div class="form-group">
+                    <label class="form-label">Medicine Batch</label>
+                    <select class="form-select" id="invoiceBatches">
+                    </select>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div class="card" id="invoiceForm">
@@ -310,6 +296,20 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Invoice List</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Customer Name</label>
+                        <input type="text" id="custName" class="form-input" placeholder="Name" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" id="custNum" class="form-input" placeholder="Number" value="" required>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn primary" id="invoiceSave">Save Invoice</button>
+                    <button class="btn" id="invoiceCancel">Cancel</button>
+                </div>
             </div>
 
             <!-- Medicine Batch Table -->

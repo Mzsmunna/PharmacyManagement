@@ -26,8 +26,7 @@ getMedicines();
 
 function LoadInvMedBilling()
 {
-    //if (!selectedBatch) 
-    selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
+    //if (!selectedBatch)
     document.getElementById("invoiceQt").max = selectedBatch.Quantity;
     console.log(selectedBatch);
     if (selectedBatch) invoiceForm.style.display = "block";
@@ -59,6 +58,7 @@ function LoadInvMedBatchesDD() {
       {
         option.selected = true;
         selectedBatchId = item.Id;
+        selectedBatch = item;
         LoadInvMedBilling();
       }
       
@@ -68,6 +68,7 @@ function LoadInvMedBatchesDD() {
 
     select.addEventListener("change", (e) => {
         selectedBatchId = e.target.value;
+        selectedBatch = selectedMed.Batches.find(b => b.Id === selectedBatchId);
         LoadInvMedBilling();
     });
 }
