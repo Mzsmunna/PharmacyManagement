@@ -32,6 +32,18 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Includes/{id}")]
+        public async Task<IActionResult> GetWithJoins(string? id)
+        {
+            //if (!string.IsNullOrEmpty(id) && id.Equals("''")) id = "";
+            if(!Guid.TryParse(id, out _)) id = "";
+            var result =
+               string.IsNullOrEmpty(id) ? await dBContext.Set<Invoice>().Include(y => y.InvoiceItems).ToListAsync()
+               : await dBContext.Set<Invoice>().Where(x => x.Id == id).Include(y => y.InvoiceItems).ToListAsync();
+            if (result == null) result = []; //throw new AppException(AppError.NotFound(typeof(Invoice).Name + ".NotFound", $"No {typeof(Medicine).Name} available for id: " + id));
+            return Ok(result);
+        }
+
         [HttpGet("filter")]
         public async Task<IActionResult> GetByFilter([FromQuery] FilterPayload payload)
         {

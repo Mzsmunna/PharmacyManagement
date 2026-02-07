@@ -7,9 +7,12 @@ const invoiceForm = document.getElementById("invoiceForm");
 invoiceForm.style.display = "none";
 const invoiceExpIV = document.getElementById("invoiceExpIV");
 invoiceExpIV.style.display = "none";
+const invHistItems = document.getElementById("invHistItems");
+invHistItems.style.display = "none";
 var invoiceItems = [];
 const invApiUrl = "https://localhost:7000/api/Invoices/";
 var invoices = [];
+var selectedInvoice = null;
 
 async function getMedicines() {
     res = await apiRequest("GET", apiUrl + "Includes/''");
@@ -26,7 +29,7 @@ async function getMedicines() {
 getMedicines();
 
 async function getInvoices() {
-    res = await apiRequest("GET", invApiUrl);
+    res = await apiRequest("GET", invApiUrl + "Includes/''");
     invoices = await res.json();
     console.log("invoices:", invoices);
     if (invoices && invoices.length) {
@@ -35,12 +38,94 @@ async function getInvoices() {
 }
 getInvoices();
 
+function LoadInvoiceItems()
+{
+    if (selectedInvoice && selectedInvoice.InvoiceItems)
+    {
+        const tbody = document.getElementById("inv-hist-item-tbody");
+        tbody.innerHTML = "";
+        selectedInvoice.InvoiceItems.forEach((item, index) => {
+            if (!item) return;
+            var medDetails = meds
+                      .flatMap(x => x.Batches)
+                      .find(x => x.Id === item.MedicineBatchId);
+            var medInfo = meds.find(x => x.Id === medDetails.MedicineId);
+            const row = `
+                <tr>
+                    <td><span class="price-cell">${item.MedicineBatchNo}</span></td>
+                    <td>
+                        <div class="coin-cell">
+                            <div class="coin-icon btc">M</div>
+                            <div>
+                                <div class="coin-name">${medInfo.Name} | ${medInfo.Type}</div>
+                                <div class="coin-symbol">${medInfo.Description}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="change-cell positive">${item.Quantity}</td>
+                    <td class="price-cell">${item.UnitPrice}${selectedInvoice.Currency}</td>
+                    <td class="volume-cell">${item.Discount}%</td>
+                    <td class="price-cell">${item.Total}${selectedInvoice.Currency}</td>
+                    <td class="change-cell negative">${formatDateGmt(item.ExpiryDate)}</td>
+                </tr>
+            `;
+
+            tbody.insertAdjacentHTML("beforeend", row);
+        });
+    }
+}
+
 function LoadInvoiceTable()
 {
     const tabs = document.querySelectorAll(".settings-tabs .settings-tab");
     tabs.forEach(tab => tab.classList.remove("active"));
     if (tabs[3]) {
       tabs[3].classList.add("active");
+    }
+
+    const tbody = document.getElementById("inv-hist-tbody");
+    tbody.innerHTML = "";
+
+    if (invoices && invoices.length)
+    {
+        invoices.forEach((inv, index) => {
+            if (!inv) return;
+            const row = `
+                <tr>
+                    <td><span class="price-cell">${inv.InvoiceNo}</span></td>
+                    <td>
+                        <div class="coin-cell">
+                            <div class="coin-icon btc">C</div>
+                            <div>
+                                <div class="coin-name">${inv.CustomerName}</div>
+                                <div class="coin-symbol">${inv.CustomerPhone}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="change-cell positive">${inv.Items}</td>
+                    <td class="price-cell">${inv.Total}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn primary inv-hist" data-id="${inv.Id}">View</button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            tbody.insertAdjacentHTML("beforeend", row);
+        });
+        
+        document.querySelectorAll(".inv-hist").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.currentTarget.dataset.id;
+                invHistItems.style.display = "block";
+                selectedInvoice = invoices.find(b => b.Id === id);
+                if (selectedInvoice) {
+                    document.getElementById("inv-no-items").textContent = selectedInvoice.InvoiceNo;
+                    LoadInvoiceItems();
+                }
+            });
+        });
     }
 }
 
@@ -374,5 +459,10 @@ document.getElementById("invoiceSave").addEventListener("click", async (e) => {
         {
             getMedicines();
         }
+});
+
+document.getElementById("invItemCancel").addEventListener("click", async (e) => {
+    //const id = e.currentTarget.dataset.id;
+    invHistItems.style.display = "none";
 });
 
