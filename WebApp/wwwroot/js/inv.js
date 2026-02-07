@@ -9,6 +9,7 @@ const invoiceExpIV = document.getElementById("invoiceExpIV");
 invoiceExpIV.style.display = "none";
 var invoiceItems = [];
 const invApiUrl = "https://localhost:7000/api/Invoices/";
+var invoices = [];
 
 async function getMedicines() {
     res = await apiRequest("GET", apiUrl + "Includes/''");
@@ -23,6 +24,25 @@ async function getMedicines() {
     }
 }
 getMedicines();
+
+async function getInvoices() {
+    res = await apiRequest("GET", invApiUrl);
+    invoices = await res.json();
+    console.log("invoices:", invoices);
+    if (invoices && invoices.length) {
+        LoadInvoiceTable();
+    }
+}
+getInvoices();
+
+function LoadInvoiceTable()
+{
+    const tabs = document.querySelectorAll(".settings-tabs .settings-tab");
+    tabs.forEach(tab => tab.classList.remove("active"));
+    if (tabs[3]) {
+      tabs[3].classList.add("active");
+    }
+}
 
 function LoadInvMedBilling()
 {

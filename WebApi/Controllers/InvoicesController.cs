@@ -32,7 +32,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("filter")]
         public async Task<IActionResult> GetByFilter([FromQuery] FilterPayload payload)
         {
             //InvoiceDto? data = null;
@@ -53,46 +53,58 @@ namespace WebApi.Controllers
                 payload.Items.Count <= 0)
                 throw new AppException(AppError.Bad(typeof(Invoice).Name + ".BadRequest"));
 
-            var invoice = new Invoice { 
-                Items = payload.Items.Count, 
-                Total = 0,
-                Currency = payload.Currency,
-                CustomerId = "", //payload.user.Id,
-                CustomerName = payload.CustomerName,
-                CustomerPhone = payload.CustomerPhone,
-            };
-
-            foreach (var item in payload.Items)
+            using var transaction = dBContext.Database.BeginTransaction();
+            try
             {
-                if (item == null) continue;
-                var medicineBatch = await dBContext.Set<MedicineBatch>()
-                    //.Include(p => p.Medicine)
-                    .FirstAsync(p => p.MedicineId == item.MedicineId && 
-                                p.No == item.BatchNo);
-                if (medicineBatch == null) throw new AppException(AppError.Missing(typeof(Medicine).Name + ".Missing", $"Medicine is missing for BatchNo: {item.BatchNo} & MedicineId: {item.MedicineId}"));
-                if (medicineBatch.Quantity < item.Quantity) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Quantity.Validation", "Medicine Quantity is insufficient"));
-                
-                InvoiceItem invoiceItem = new InvoiceItem
-                {
-                    InvoiceId = invoice.Id,
-                    InvoiceNo = invoice.InvoiceNo,
-                    //Currency = invoice.Currency,
-                    MedicineBatchId = medicineBatch.Id,
-                    MedicineBatchNo = medicineBatch.No,
-                    Quantity = item.Quantity,
-                    UnitPrice = item.UnitPrice,
-                    Discount = item.Discount,
+                var invoice = new Invoice { 
+                    Items = payload.Items.Count, 
+                    Total = 0,
+                    Currency = payload.Currency,
+                    CustomerId = payload.CustomerPhone, //payload.user.Id,
+                    CustomerName = payload.CustomerName,
+                    CustomerPhone = payload.CustomerPhone,
                 };
 
-                invoiceItem.Total = (item.Discount > 0) ? 
-                    (medicineBatch.UnitPrice * (item.Discount / 100m)) * medicineBatch.Quantity : 
-                    medicineBatch.UnitPrice * medicineBatch.Quantity;
-                invoice.Total += invoiceItem.Total;
-                medicineBatch.Quantity -= item.Quantity;
-            }
+                foreach (var item in payload.Items)
+                {
+                    if (item == null) continue;
+                    var medicineBatch = await dBContext.Set<MedicineBatch>()
+                        //.Include(p => p.Medicine)
+                        .FirstAsync(p => p.MedicineId == item.MedicineId && 
+                                    p.No == item.BatchNo);
+                    if (medicineBatch == null) throw new AppException(AppError.Missing(typeof(Medicine).Name + ".Missing", $"Medicine is missing for BatchNo: {item.BatchNo} & MedicineId: {item.MedicineId}"));
+                    if (medicineBatch.Quantity < item.Quantity) throw new AppException(AppError.Validation(typeof(MedicineBatch).Name + ".Quantity.Validation", "Medicine Quantity is insufficient"));
+                
+                    InvoiceItem invoiceItem = new InvoiceItem
+                    {
+                        InvoiceId = invoice.Id,
+                        InvoiceNo = invoice.InvoiceNo,
+                        //Currency = invoice.Currency,
+                        MedicineBatchId = medicineBatch.Id,
+                        MedicineBatchNo = medicineBatch.No,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice,
+                        Discount = item.Discount,
+                    };
 
-            var status = await repository.SaveChangesAsync();
-            return Ok(invoice.Id);
+                    invoiceItem.Total = (item.Discount > 0) ? 
+                        (medicineBatch.UnitPrice * (item.Discount / 100m)) * medicineBatch.Quantity : 
+                        medicineBatch.UnitPrice * medicineBatch.Quantity;
+                    invoice.Total += invoiceItem.Total;
+                    medicineBatch.Quantity -= item.Quantity;
+                    var res = await dBContext.Set<InvoiceItem>().AddAsync(invoiceItem);
+                }
+                var result = await repository.AddAsync(invoice);
+                //var status = await repository.SaveChangesAsync();
+                dBContext.SaveChanges();
+                transaction.Commit();
+                return Ok(invoice.Id);
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw new AppException(AppError.Server(typeof(Invoice).Name + ".TransactionError", "Something went wrong. Please try again"));
+            }
         }
 
         [HttpDelete("{id}")]
