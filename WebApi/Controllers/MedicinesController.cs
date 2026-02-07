@@ -33,6 +33,41 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Stocks")]
+        public async Task<IActionResult> GetStocks()
+        {
+            var stocks = await dBContext.Set<MedicineBatch>()
+                .SumAsync(x => x.Quantity);
+            return Ok(stocks);
+        }
+
+        [HttpGet("Sells")]
+        public async Task<IActionResult> GetSells()
+        {
+            var stocks = await dBContext.Set<InvoiceItem>()
+                .SumAsync(x => x.Quantity);
+            return Ok(stocks);
+        }
+
+        [HttpGet("Revenue")]
+        public async Task<IActionResult> GetRevenue()
+        {
+            var stocks = await dBContext.Set<InvoiceItem>()
+                .SumAsync(x => x.Total);
+            return Ok(stocks);
+        }
+
+        [HttpGet("OutOfStocks")]
+        public async Task<IActionResult> GetOutOfStocks()
+        {
+            var outOfStocks = await dBContext.Set<Medicine>()
+                .CountAsync(m =>
+                    !m.Batches.Any() ||
+                    m.Batches.Sum(b => b.Quantity) == 0
+                );
+            return Ok(outOfStocks);
+        }
+
         [HttpGet("Includes/{id}")]
         public async Task<IActionResult> GetWithJoins(string? id)
         {

@@ -37,6 +37,46 @@ async function getMedicine(id) {
     }
 }
 
+async function getStocks() {
+    res = await apiRequest("GET", apiUrl + "Stocks/");
+    let counts = await res.text();
+    console.log("Stocks:", counts);
+    if (counts) {
+        document.getElementById("bi_stocks").textContent = counts;
+    }
+}
+getStocks();
+
+async function getSells() {
+    res = await apiRequest("GET", apiUrl + "Sells/");
+    let counts = await res.text();
+    console.log("Sells:", counts);
+    if (counts) {
+        document.getElementById("bi_sells").textContent = counts;
+    }
+}
+getSells();
+
+async function getRevenue() {
+    res = await apiRequest("GET", apiUrl + "Revenue/");
+    let counts = await res.text();
+    console.log("Revenue:", counts);
+    if (counts) {
+        document.getElementById("bi_revenue").textContent = counts;
+    }
+}
+getRevenue();
+
+async function getOutOfStocks() {
+    res = await apiRequest("GET", apiUrl + "OutOfStocks/");
+    let counts = await res.text();
+    console.log("Out of Stock:", counts);
+    if (counts) {
+        document.getElementById("bi_of_stocks").textContent = counts;
+    }
+}
+getOutOfStocks();
+
 async function LoadMedicine(id) {
   if (id && isValidGuidV7(id)) {
       console.log("Valid Medicine GUID v7:", id);

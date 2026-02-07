@@ -77,12 +77,6 @@ function LoadInvoiceItems()
 
 function LoadInvoiceTable()
 {
-    const tabs = document.querySelectorAll(".settings-tabs .settings-tab");
-    tabs.forEach(tab => tab.classList.remove("active"));
-    if (tabs[3]) {
-      tabs[3].classList.add("active");
-    }
-
     const tbody = document.getElementById("inv-hist-tbody");
     tbody.innerHTML = "";
 
@@ -458,6 +452,17 @@ document.getElementById("invoiceSave").addEventListener("click", async (e) => {
         if (invoiceId)
         {
             getMedicines();
+            getInvoices();
+            const tabs = document.querySelectorAll(".settings-tabs .settings-tab");
+            tabs.forEach(tab => tab.classList.remove("active"));
+            if (tabs[3]) {
+              tabs[3].classList.add("active");
+            }
+            document.getElementById('preferences').classList.add('active');
+            document.getElementById('notifications').classList.remove('active');
+            invoiceItems = [];
+            const tbody = document.getElementById("invoices-tbody");
+            tbody.innerHTML = "";
         }
 });
 

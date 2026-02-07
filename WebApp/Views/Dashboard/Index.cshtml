@@ -16,7 +16,7 @@
         <p>Manage your Pharmacy Store</p>
     </div>
 
-    <!-- Settings Tabs -->
+    <!-- Dashboard Tabs -->
     <div class="settings-tabs">
         <button class="settings-tab active" data-tab="profile">Store</button>
         <button class="settings-tab" data-tab="security">Inventory</button>
@@ -24,7 +24,7 @@
         <button class="settings-tab" data-tab="preferences">Invoices</button>
     </div>
 
-    <!-- Profile Settings -->
+    <!-- Stocks -->
     <div class="settings-content active" id="profile">
         <div class="card">
 
@@ -157,7 +157,7 @@
         </div>
     </div>
 
-    <!-- Security Settings -->
+    <!-- Stock Settings -->
     <div class="settings-content" id="security">
         <div class="page-header">
             <h1>Stocks</h1>
@@ -167,29 +167,30 @@
         <!-- Stocks Summary -->
         <div class="market-stats">
             <div class="market-stat">
-                <div class="market-stat-label">Total Market Cap</div>
-                <div class="market-stat-value">$2.48T</div>
-                <div class="market-stat-change positive">+2.4%</div>
+                <div class="market-stat-label">Total Stocks</div>
+                <div class="market-stat-change positive">Medicine</div>
+                <div class="market-stat-value" id="bi_stocks"></div>
             </div>
             <div class="market-stat">
-                <div class="market-stat-label">24h Volume</div>
-                <div class="market-stat-value">$84.2B</div>
-                <div class="market-stat-change positive">+5.8%</div>
+                <div class="market-stat-label">Total Sells</div>
+                <div class="market-stat-change positive">Medicine</div>
+                <div class="market-stat-value" id="bi_sells"></div>
             </div>
             <div class="market-stat">
-                <div class="market-stat-label">BTC Dominance</div>
-                <div class="market-stat-value">52.4%</div>
-                <div class="market-stat-change negative">-0.3%</div>
+                <div class="market-stat-label">Total Revenue from</div>
+                <div class="market-stat-change positive">Medicine</div>
+                <div class="market-stat-value" id="bi_revenue"></div>
             </div>
             <div class="market-stat">
-                <div class="market-stat-label">Active Cryptos</div>
-                <div class="market-stat-value">12,847</div>
-                <div class="market-stat-change positive">+24</div>
+                <div class="market-stat-label">Out of Stocks</div>
+                <div class="market-stat-change negative">Medicine</div>
+                <div class="market-stat-value" id="bi_of_stocks"></div>
+                
             </div>
         </div>
 
         <!-- Search and Filters -->
-        <div class="search-filters">
+        @* <div class="search-filters">
             <div class="search-box">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8" />
@@ -197,7 +198,7 @@
                 </svg>
                 <input type="text" placeholder="Search coins..." id="searchInput">
             </div>
-        </div>
+        </div> *@
 
         <!-- Medicine Table -->
         <div class="card">
@@ -217,7 +218,7 @@
         </div>
     </div>
 
-    <!-- Notification Settings -->
+    <!-- Invoice -->
     <div class="settings-content" id="notifications">
         <div class="card">
             <div class="profile-header">
@@ -280,7 +281,6 @@
                         <input type="text" id="invoiceDisc" class="form-input" value="0" min="0">
                     </div>
                     <div class="form-group">
-                        @* <span class="transaction-value negative">Invalid</span> *@
                         <label class="form-label">Expiry Date <span id="invoiceExpIV" class="transaction-status invalid" style="display:none;float:right"> Invalid Date</span></label>
                         <input type="text" id="invoiceExp" class="form-input form-date" placeholder="MM-DD-YY" value="" required>
                     </div>
@@ -332,7 +332,7 @@
 
     </div>
 
-    <!-- Preferences Settings -->
+    <!-- Invoice History -->
     <div class="settings-content" id="preferences">
         <div class="card" id="invHistItems">
             <div class="card-header">
