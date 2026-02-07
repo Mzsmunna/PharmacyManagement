@@ -180,7 +180,21 @@ function LoadInvoiceList() {
         let totalUp = 0;
         let totalDisc = 0;
         invoiceItems.forEach(medBatch => {
-            //if (!medBatch) return;
+            if (!medBatch) return;
+
+            if (!medBatch.BatchId && medBatch.BatchNo) {
+                const batch = meds
+                      .flatMap(x => x.Batches)
+                      .find(x => x.No === medBatch.BatchNo);
+                if (batch) medBatch.BatchId = batch.Id;
+            }
+            else if (medBatch.BatchId && !medBatch.BatchNo) {
+                const batch = meds
+                      .flatMap(x => x.Batches)
+                      .find(x => x.Id === medBatch.BatchId);
+                if (batch) medBatch.BatchNo = batch.No;
+            }
+
             if (medBatch.Quantity) totalQt += medBatch.Quantity;
             if (medBatch.UnitPrice) totalUp += (medBatch.UnitPrice * medBatch.Quantity);
             if (medBatch.Discount) totalDisc += medBatch.Discount;
@@ -244,10 +258,19 @@ function LoadInvoiceList() {
                 const id = e.currentTarget.dataset.id;
                 if (!id) return;
                 let match = invoiceItems.find(b => b.BatchId = id);
-                const item = meds
-                  .flatMap(x => x.Batches)
-                  .find(x => x.BatchId === id);
-                item.Quantity += match.Quantity;
+                if (match) 
+                {
+                    const batch = meds
+                      .flatMap(x => x.Batches)
+                      .find(x => x.Id === id);
+                    batch.Quantity += match.Quantity;
+                    invoiceItems = invoiceItems.filter(b => b.BatchId != id);
+                    LoadInvoiceList();
+                    if (selectedBatchId == batch.Id)
+                    {
+                        LoadInvMedBilling();
+                    }
+                }
             });
         });
     }
