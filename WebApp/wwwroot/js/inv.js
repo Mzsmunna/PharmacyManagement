@@ -16,6 +16,9 @@ async function getMedicines() {
     //meds = Array.isArray(med) && med.length ? meds : [];
     console.log("medicine:", meds);
     if (meds && meds.length) {
+        //meds = meds.filter(m =>
+        //  m.Batches.some(b => b.Quantity > 0)
+        //);
         LoadInventoryTable();
     }
 }
@@ -43,6 +46,8 @@ function LoadInvMedBatchesDD() {
 
     // clear existing options
     select.innerHTML = "";
+
+    if (!selectedMed || !selectedMed.Batches) return;
 
     selectedMed.Batches.forEach((item, index) => {
       const option = document.createElement("option");
@@ -74,7 +79,10 @@ function LoadInvoiceMedsDD() {
     // clear existing options
     select.innerHTML = "";
 
-    meds.forEach((item, index) => {
+    availableMed = meds.filter(m =>
+        m.Batches.some(b => b.Quantity > 0)
+    );
+    availableMed.forEach((item, index) => {
       const option = document.createElement("option");
       option.value = item.Id;
       option.textContent = item.Name;     
@@ -83,6 +91,9 @@ function LoadInvoiceMedsDD() {
       if (index === 0)
       {
         option.selected = true;
+        selectedMedId = item.Id;
+        selectedMed = item;
+        LoadInvMedBatchesDD();
       }
       
       select.appendChild(option);
@@ -104,12 +115,7 @@ function LoadInventoryTable() {
     {
         let count = 0;
         meds.forEach((med, index) => {
-            if (index == 0)
-            {
-                selectedMedId = med.Id;
-                selectedMed = med;
-                LoadInvMedBatchesDD();
-            }
+            if (!meds || !med.Batches) return;
             
             const totalQt = med.Batches.reduce((sum, item) => sum + item.Quantity, 0);
             count++;
